@@ -103,7 +103,7 @@ generate_fgn = function(sigma, delta, rho){
 }
 # Harmonics
 generate_harmonic = function(delta, period){
-  stdev = (period/(pi*delta))*abs(sin((pi*delta)/period))
+  stdev = (period / (pi * delta)) * abs(sin((pi * delta) / period))
   return(stdev ^ 2)
 }
 
