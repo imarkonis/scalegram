@@ -6,7 +6,7 @@ scalegram_main <- function(x){
   delta <- round(0.1 * nna, 0)   # aggregrion scale up to 10% of the sample size does not count NAs
 
   if (delta!=0){
-    vardf <- data.frame(scale=1:delta, var_scale=NA)  # Create a data.frame to store all the variances
+    vardf <- data.frame(scale=1:delta, var_scale=NA)  # create a data.frame to store all the variances
     samp <-data.table(scale(x, center = TRUE, scale = TRUE))     # standardize all data points
     vardf[1,"var_scale"]    <- var(samp, na.rm=T)
 
