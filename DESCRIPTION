@@ -8,5 +8,4 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/markonis/scalegram
-BugReports: htp://github.com/markonis/scalegram/issues
-
+BugReports: http://github.com/markonis/scalegram/issues
