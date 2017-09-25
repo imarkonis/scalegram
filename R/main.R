@@ -88,7 +88,7 @@ plot_scalegram = function(X){
 # White noise (WN)
 generate_wn = function(sigma, delta){
   stdev = sigma/(sqrt(delta))
-  return(stdev^2)
+  return(stdev ^ 2)
 }
 # AR(1) process
 generate_ar_1 = function(sigma, delta, rho){
