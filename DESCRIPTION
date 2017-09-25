@@ -1,11 +1,12 @@
 Package: scalegram
-Title: What the Package Does (one line, title case)
+Title: A cross-scale visualization tool for model-observation integration.
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(person("Yannis", "Markonis", email = "imarkonis@gmail.com", role = c("aut", "cre")),
+person("Christoforos", "Pappas", email = "christoforos.pappas@umontreal.ca", role = c("aut", "cre")))
+Description: TBD
 Depends: R (>= 3.3.2)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/markonis/scalegram
-BugReports: http://github.com/markonis/scalegram/issues
+BugReports: htp://github.com/markonis/scalegram/issues
