@@ -7,3 +7,6 @@ Depends: R (>= 3.3.2)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+URL: http://github.com/markonis/scalegram
+BugReports: http://github.com/markonis/scalegram/issues
+
