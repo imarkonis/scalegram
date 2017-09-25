@@ -92,7 +92,7 @@ generate_wn = function(sigma, delta){
 }
 # AR(1) process
 generate_ar_1 = function(sigma, delta, rho){
-  stdev = (sigma/(sqrt(delta)))* sqrt(((1-rho^2)-(2*rho*(1-rho^delta))/delta)/((1-rho)^2))
+  stdev = (sigma/(sqrt(delta))) * sqrt(((1-rho^2)-(2*rho*(1-rho^delta))/delta)/((1-rho)^2))
   return(stdev^2)
 }
 # FGN process
