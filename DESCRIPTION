@@ -3,14 +3,17 @@ Title: A cross-scale visualization tool for model-observation integration.
 Version: 0.0.0.9000
 Authors@R: c(
   person("Yannis", "Markonis", email = "imarkonis@gmail.com", role = c("aut", "cre")),
-  person("Christoforos", "Pappas", email = "christoforos.pappas@umontreal.ca", role = c("aut")))
+  person("Christoforos", "Pappas", email = "christoforos.pappas@umontreal.ca", role = c("aut")),
+  person("Simon", "Papalexiou", email = "simon@uni.edu", role = c("aut")),
+  person("Martin", "Hanel", email = "hanel@fzp.czu.cz", role = c("aut"))
+  )
 Description: TBD
-Depends: R (>= 3.3.2)
+Depends: R (>= 3.3.2), parallel, data.table, knitr, ggplot2, plyr, reshape2, zoo
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/markonis/scalegram
 BugReports: htp://github.com/markonis/scalegram/issues
-Imports:
-  data.table, 
-  parallel
+VignetteBuilder: knitr
+
+

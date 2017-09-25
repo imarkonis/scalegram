@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
-RVersion: 3.3.2
+RVersion: 3.4.1
 Repos: BioCsoft=https://bioconductor.org/packages/3.4/bioc,
     BioCann=https://bioconductor.org/packages/3.4/data/annotation,
     BioCexp=https://bioconductor.org/packages/3.4/data/experiment,
@@ -8,7 +8,305 @@ Repos: BioCsoft=https://bioconductor.org/packages/3.4/bioc,
     CRAN=https://cran.rstudio.com/,
     CRANextra=https://www.stats.ox.ac.uk/pub/RWin
 
+Package: HKprocess
+Source: CRAN
+Version: 0.0-2
+Hash: 442bb51dcb8b84de999af19d755b00ca
+Requires: MCMCpack, gtools
+
+Package: Kendall
+Source: CRAN
+Version: 2.2
+Hash: 56635d76a210843cd5b232aa48401fc9
+
+Package: MCMCpack
+Source: CRAN
+Version: 1.4-0
+Hash: 1dcc0040b579444bcc92ee2b442a736a
+Requires: coda, mcmc, quantreg
+
+Package: MatrixModels
+Source: CRAN
+Version: 0.4-1
+Hash: 60a5c75e57aae4a0ce76cb7422939aaf
+
+Package: R6
+Source: CRAN
+Version: 2.2.2
+Hash: b2366cd9d2f3851a5704b4e192b985c2
+
+Package: RColorBrewer
+Source: CRAN
+Version: 1.1-2
+Hash: c0d56cd15034f395874c870141870c25
+
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.8
+Hash: 79c7d5a8684e44e0e3426d3093aa7d90
+Requires: bitops
+
+Package: RNCEP
+Source: CRAN
+Version: 1.0.8
+Hash: 35b3f3f30b4b3543507b82c989e3937f
+Requires: RColorBrewer, abind, fields, fossil, maps, sp, tgp
+
+Package: Rcpp
+Source: CRAN
+Version: 0.12.12
+Hash: 8b3d5ebb9a9a4ab5c86b3a81b0cfb774
+
+Package: SparseM
+Source: CRAN
+Version: 1.77
+Hash: 08f1f60e1038957030bcd9f4a58d22d8
+
+Package: abind
+Source: CRAN
+Version: 1.4-5
+Hash: 1ceb86ef5ebe776ed4753ab6165eb6d7
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
+
+Package: coda
+Source: CRAN
+Version: 0.19-1
+Hash: e5aff7792ef292cd4306e58e25e403fe
+
+Package: colorspace
+Source: CRAN
+Version: 1.3-2
+Hash: 0bf8618b585fa98eb23414cd3ab95118
+
+Package: data.table
+Source: CRAN
+Version: 1.10.4
+Hash: 2c7c47ccb40d01c7b214c8eff818108d
+
+Package: dichromat
+Source: CRAN
+Version: 2.0-0
+Hash: 08eed0c80510af29bb15f840ccfe37ce
+
+Package: digest
+Source: CRAN
+Version: 0.6.12
+Hash: e53fb8c58673df868183697e39a6a4d6
+
+Package: dotCall64
+Source: CRAN
+Version: 0.9-04
+Hash: 515680e494099bc9c461ab61ee4af0a9
+
+Package: evaluate
+Source: CRAN
+Version: 0.10.1
+Hash: 54d95f4ec6d0300100413ed0127d89ae
+Requires: stringr
+
+Package: fields
+Source: CRAN
+Version: 9.0
+Hash: 900e9d576ba646a482c2dc2190f4e26c
+Requires: maps, spam
+
+Package: fossil
+Source: CRAN
+Version: 0.3.7
+Hash: 5ae811f2c280cd54c8ec36ec3e307352
+Requires: maps, shapefiles, sp
+
+Package: ggplot2
+Source: CRAN
+Version: 2.2.1
+Hash: 46e5cb78836848aa44655e577433f54b
+Requires: digest, gtable, lazyeval, plyr, reshape2, scales, tibble
+
+Package: gimms
+Source: CRAN
+Version: 1.0.0
+Hash: 5ad1e7d540c4f4201aa2dea107e0e2c8
+Requires: Kendall, RCurl, raster, zyp
+
+Package: gtable
+Source: CRAN
+Version: 0.2.0
+Hash: cd78381a9d3fea966ac39bd0daaf5554
+
+Package: gtools
+Source: CRAN
+Version: 3.5.0
+Hash: 471b2e2452dfb30fdc1dd6f1b567925a
+
+Package: highr
+Source: CRAN
+Version: 0.6
+Hash: aa3d5b7912b5fed4b546ed5cd2a1760b
+
+Package: knitr
+Source: CRAN
+Version: 1.17
+Hash: f6b2bf543ee3e25f5b92bb46f9958c5f
+Requires: digest, evaluate, highr, markdown, stringr, yaml
+
+Package: labeling
+Source: CRAN
+Version: 0.3
+Hash: ecf589b42cd284b03a4beb9665482d3e
+
+Package: lazyeval
+Source: CRAN
+Version: 0.2.0
+Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
+
+Package: longmemo
+Source: CRAN
+Version: 1.0-0
+Hash: d0aabd90934c6e074e1d4ad67aec8be3
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: maps
+Source: CRAN
+Version: 3.2.0
+Hash: 086a0f4e41bf42749d8737e9407a4853
+
+Package: maptree
+Source: CRAN
+Version: 1.4-7
+Hash: 99cd2f18cb5b62ae9ef978691a185693
+
+Package: markdown
+Source: CRAN
+Version: 0.8
+Hash: 045d7c594d503b41f1c28946d076c8aa
+Requires: mime
+
+Package: mcmc
+Source: CRAN
+Version: 0.9-5
+Hash: 83a0dcaeb047387365d9143c3febb2e8
+
+Package: mime
+Source: CRAN
+Version: 0.5
+Hash: 463550cf44fb6f0a2359368f42eebe62
+
+Package: munsell
+Source: CRAN
+Version: 0.4.3
+Hash: f96d896947fcaf9b6d0074002e9f4f9d
+Requires: colorspace
+
+Package: ncdf4
+Source: CRAN
+Version: 1.16
+Hash: 68486da5802565ac2e2ed038caf2b858
+
 Package: packrat
 Source: CRAN
 Version: 0.4.8-1
 Hash: 6ad605ba7b4b476d84be6632393f5765
+
+Package: plyr
+Source: CRAN
+Version: 1.8.4
+Hash: 8fbaff6962e3421b5c9652eebae36159
+Requires: Rcpp
+
+Package: quantreg
+Source: CRAN
+Version: 5.33
+Hash: 30421e83e9d36563250019b6b2adafce
+Requires: MatrixModels, SparseM
+
+Package: raster
+Source: CRAN
+Version: 2.5-8
+Hash: 082eefcf49830e46ff808b2749fc39bd
+Requires: Rcpp, sp
+
+Package: reshape2
+Source: CRAN
+Version: 1.4.2
+Hash: df8d1de05444abd99e423c1e3b84c9b0
+Requires: Rcpp, plyr, stringr
+
+Package: rlang
+Source: CRAN
+Version: 0.1.2
+Hash: c17b638e3282aa222a47112d7a60bc66
+
+Package: scales
+Source: CRAN
+Version: 0.5.0
+Hash: c108129462eb98e2699b07201fd12acf
+Requires: R6, RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr,
+    viridisLite
+
+Package: shapefiles
+Source: CRAN
+Version: 0.7
+Hash: 57446037bb54a510f1d51d6675eb60ef
+
+Package: sp
+Source: CRAN
+Version: 1.2-5
+Hash: 355c8b47792e18a08da8708132f994e0
+
+Package: spam
+Source: CRAN
+Version: 2.1-1
+Hash: 5c20da24ffbb6d99a932d7143c9d820e
+Requires: dotCall64
+
+Package: stringi
+Source: CRAN
+Version: 1.1.5
+Hash: b6308e49357a0b475f433599e0d8b5eb
+
+Package: stringr
+Source: CRAN
+Version: 1.2.0
+Hash: 25a86d7f410513ebb7c0bc6a5e16bdc3
+Requires: magrittr, stringi
+
+Package: tgp
+Source: CRAN
+Version: 2.4-14
+Hash: 3d534487111c71deb608ee3964e53eb6
+Requires: maptree
+
+Package: tibble
+Source: CRAN
+Version: 1.3.4
+Hash: 3111e0d62502af60fe0fa8b4213fedad
+Requires: Rcpp, rlang
+
+Package: viridisLite
+Source: CRAN
+Version: 0.2.0
+Hash: 10f0c25af3dc84eaae10f5854f47efdb
+
+Package: yaml
+Source: CRAN
+Version: 2.1.14
+Hash: c81230c3a7d9ba20607ad6b4331173d1
+
+Package: zoo
+Source: CRAN
+Version: 1.8-0
+Hash: df9711767f56f086e8a8d1f0fb926ff6
+
+Package: zyp
+Source: CRAN
+Version: 0.10-1
+Hash: c96615a2b7962b44ad17243222602bd4
+Requires: Kendall
