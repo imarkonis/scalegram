@@ -1,6 +1,10 @@
 ## Empirical scalegrams
 
+<<<<<<< HEAD
 scalegram_main <- function(x){ #comment A
+=======
+scalegram_main <- function(x){
+>>>>>>> 2a593729be7d74da38fb0c4feab84cac73846d14
   library(data.table)   # load libraries inside for the 'parallel' package
   nna <- sum(!is.na(x)) # actual length without accounting for missing values
   delta <- round(0.1 * nna, 0)   # aggregrion scale up to 10% of the sample size does not count NAs
