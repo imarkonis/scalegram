@@ -1,6 +1,5 @@
 ## Empirical scalegrams
 
-
 scalegram_main <- function(x){ #comment A
 
   library(data.table)   # load libraries inside for the 'parallel' package
