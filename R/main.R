@@ -1,7 +1,6 @@
 ## Empirical scalegrams
 
-
-scalegram_main <- function(x){ #comment A
+scalegram_main <- function(x){ #comment B
 
   library(data.table)   # load libraries inside for the 'parallel' package
   nna <- sum(!is.na(x)) # actual length without accounting for missing values
