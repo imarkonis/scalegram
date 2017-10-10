@@ -102,6 +102,9 @@ scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
 ## Plot scalegram ==============================================================
 ##==============================================================================
 plot_scalegram = function(X, MODE){
+
+  '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
+
   # check if correct MODE is provided
   if(MODE %!in% c("mu", "s1", "s2", "s3", "s4", "CV",
                   "L1", "L2", "t2", "t3", "t4")){
