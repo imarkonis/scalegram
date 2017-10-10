@@ -1,6 +1,6 @@
 ## Empirical scalegrams
 
-scalegram_main <- function(x, MODE, STD=TRUE, threshold=30){
+scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
   library(data.table) # load libraries inside for the 'parallel' package
   library(e1071)
   library(Lmoments)
