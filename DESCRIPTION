@@ -8,7 +8,7 @@ Authors@R: c(
   person("Martin", "Hanel", email = "hanel@fzp.czu.cz", role = c("aut"))
   )
 Description: TBD
-Depends: R (>= 3.3.2), parallel, data.table, knitr, ggplot2, plyr, reshape2, zoo, scales
+Depends: R (>= 3.3.2), parallel, data.table, knitr, ggplot2, plyr, reshape2, zoo, scales, e1071
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
