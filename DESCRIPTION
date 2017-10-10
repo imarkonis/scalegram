@@ -15,5 +15,3 @@ LazyData: true
 URL: http://github.com/markonis/scalegram
 BugReports: htp://github.com/markonis/scalegram/issues
 VignetteBuilder: knitr
-
-
