@@ -2,7 +2,7 @@
 
 scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
   library(data.table) # load libraries inside for the 'parallel' package
-  library(e1071)
+  library(moments)
   library(Lmoments)
   '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
   # check if correct MODE is provided
@@ -17,9 +17,9 @@ scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
       scaledf <- data.frame(scale=1:delta, y_scale=NA) # Create a data.frame to store all the y_scale
 
       if (STD == TRUE){ # standardize data ,i.e., zero mean unit variance at the original time scale
-        samp <-data.table(scale(x, center = TRUE, scale = TRUE))
+        samp <- data.table(scale(x, center = TRUE, scale = TRUE))
       } else {
-        samp <-data.table(x)
+        samp <- data.table(x)
       }
 
       # normal moments ------------------------------------------------------------
@@ -30,9 +30,9 @@ scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
       } else if (MODE == "s2"){ # MODE: variance
         scaledf[1,"y_scale"]    <- var(samp$V1, na.rm=T)
       } else if (MODE == "s3"){ # MODE: skewness
-        scaledf[1,"y_scale"]    <- skewness(samp$V1, na.rm=T, type=3)
+        scaledf[1,"y_scale"]    <- skewness(samp$V1, na.rm=T)
       } else if (MODE == "s4"){ # MODE: kurtosis
-        scaledf[1,"y_scale"]    <- kurtosis(samp$V1, na.rm=T, type=3)
+        scaledf[1,"y_scale"]    <- kurtosis(samp$V1, na.rm=T)
       } else if (MODE == "CV"){ # MODE: coefficient of variation
         scaledf[1,"y_scale"]    <- sd(samp$V1, na.rm=T)/mean(samp$V1, na.rm=T)
         # L-moments -----------------------------------------------------------------
@@ -94,7 +94,6 @@ scalegram_main <- function(x, MODE="s1", STD=TRUE, threshold=30){ #Right
       return("Error: Time series length too short!")
     }
     return(scaledf[complete.cases(scaledf),])
-
   }
 }
 
@@ -150,7 +149,6 @@ plot_scalegram = function(X, MODE){
     }
   }
 }
-
 
 scalegram_parallel = function(x, MODE, STD=TRUE, threshold=30, cores_used = detectCores() - 1){
   cl = makeCluster(cores_used)
