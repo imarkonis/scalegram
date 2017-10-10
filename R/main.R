@@ -176,7 +176,7 @@ plot_scalegram = function(X){
     } else {
     aa=1
     }
-    ggplot(data=X, aes(x=scale, y=var_scale))+
+    ggplot(data=X, aes(x=scale, y=y_scale))+
       geom_line(aes(group=interaction(variable),
                     colour = variable), show.legend = FALSE, size = 0.5, alpha = aa) +
       geom_point(aes(group=interaction(variable),
@@ -192,7 +192,7 @@ plot_scalegram = function(X){
             panel.grid.minor.y = element_blank())+
       coord_fixed()
   } else {
-    ggplot(data=X, aes(x=scale, y=var_scale))+
+    ggplot(data=X, aes(x=scale, y=y_scale))+
       geom_line(show.legend = FALSE, size = 0.5) +
       geom_point(show.legend = FALSE) +
       scale_y_log10("Variance [-]",
