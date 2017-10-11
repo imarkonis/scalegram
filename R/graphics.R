@@ -1,6 +1,6 @@
 ## Plot scalegram ==============================================================
 ##==============================================================================
-plot_scalegram = function(X, MODE = "s1", ...){
+plot_scalegram = function(X, MODE = "s1", INDEX = "", ...){  # INDEX is the column name that distinguishes each variable [previously it was Variable]
 
   '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
 
@@ -13,19 +13,20 @@ plot_scalegram = function(X, MODE = "s1", ...){
     if(is.ts(X)) {X = scalegram(as.vector(X), MODE)
     } else if(is.vector(X)) {X = scalegram(X, MODE)
     }
-    if("variable" %in% colnames(X)){
 
-      if(length(unique(X$variable))>10){
-        aa = 0.2
+    if(INDEX != ""){
+
+      if(length(unique(X$INDEX))>10){
+        transp <- 0.2
       } else {
-        aa = 1
+        transp <- 1
       }
-      ggplot(data=X, aes(x=scale, y=y_scale))+
-        geom_line(aes(group=interaction(variable),
-                      colour = variable), show.legend = FALSE, size = 0.5, alpha = aa) +
-        geom_point(aes(group=interaction(variable),
-                       colour=variable), show.legend = FALSE, alpha = aa) +
-        geom_tile(aes(fill=variable))+
+      ggplot(data = X, aes(x = scale, y = y_scale))+
+        geom_line(aes(group = interaction(INDEX),
+                      colour = INDEX), show.legend = FALSE, size = 0.5, alpha = transp) +
+        geom_point(aes(group = interaction(INDEX),
+                       colour = INDEX), show.legend = FALSE, alpha = transp) +
+        geom_tile(aes(fill = INDEX))+
         scale_y_continuous(MODE) +
         scale_x_log10("Aggregation scale [-]",
                       labels = trans_format("log10", math_format(10^.x))) +
@@ -34,8 +35,9 @@ plot_scalegram = function(X, MODE = "s1", ...){
         theme(panel.grid.minor.x = element_blank(),
               panel.grid.minor.y = element_blank())
       #      coord_fixed()
+
     } else {
-      ggplot(data=X, aes(x=scale, y=y_scale))+
+      ggplot(data = X, aes(x = scale, y = y_scale))+
         geom_line(show.legend = FALSE, size = 0.5) +
         geom_point(show.legend = FALSE) +
         scale_y_continuous(MODE) +
