@@ -26,7 +26,6 @@ plot_scalegram = function(X, MODE = "s1", ...){
         geom_point(aes(group=interaction(variable),
                        colour=variable), show.legend = FALSE, alpha = aa) +
         geom_tile(aes(fill=variable))+
-
         scale_y_continuous(MODE) +
         scale_x_log10("Aggregation scale [-]",
                       labels = trans_format("log10", math_format(10^.x))) +
