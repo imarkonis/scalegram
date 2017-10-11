@@ -1,6 +1,6 @@
 ## Empirical scalegrams
 
-scalegram_main <- function(x, MODE = "s1", STD = TRUE, threshold = 30){ #Right
+scalegram <- function(x, MODE = "s1", STD = TRUE, threshold = 30){ #Right
   library(data.table) # load libraries inside for the 'parallel' package
   library(moments)
   library(Lmoments)
@@ -97,95 +97,19 @@ scalegram_main <- function(x, MODE = "s1", STD = TRUE, threshold = 30){ #Right
   }
 }
 
-
-## Plot scalegram ==============================================================
-##==============================================================================
-plot_scalegram = function(X, ...){
-
-  '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
-
-  # check if correct MODE is provided
-  if(MODE %!in% c("mu", "s1", "s2", "s3", "s4", "CV",
-                  "L1", "L2", "t2", "t3", "t4")){
-    return("Error: Invalid MODE. Select one of s1, s2, s3, s4, CV, L1, L2, t2, t3, t4")
-  } else {
-
-    if(is.ts(X)) {X = scalegram_main(as.vector(X), MODE)
-    } else if(is.vector(X)) {X = scalegram_main(X, MODE)
-    }
-    if("variable" %in% colnames(X)){
-
-      if(length(unique(X$variable))>10){
-        aa = 0.2
-      } else {
-        aa=1
-      }
-      ggplot(data=X, aes(x=scale, y=y_scale))+
-        geom_line(aes(group=interaction(variable),
-                      colour = variable), show.legend = FALSE, size = 0.5, alpha = aa) +
-        geom_point(aes(group=interaction(variable),
-                       colour=variable), show.legend = FALSE, alpha = aa) +
-        geom_tile(aes(fill=variable))+
-
-        scale_y_continuous(MODE) +
-        scale_x_log10("Aggregation scale [-]",
-                      labels = trans_format("log10", math_format(10^.x))) +
-        annotation_logticks(sides = "b") +
-        theme_bw()+
-        theme(panel.grid.minor.x = element_blank(),
-              panel.grid.minor.y = element_blank())
-      #      coord_fixed()
-    } else {
-      ggplot(data=X, aes(x=scale, y=y_scale))+
-        geom_line(show.legend = FALSE, size = 0.5) +
-        geom_point(show.legend = FALSE) +
-        scale_y_continuous(MODE) +
-        scale_x_log10("Aggregation scale [-]",
-                      labels = trans_format("log10", math_format(10^.x))) +
-        annotation_logticks(sides = "b") +
-        theme_bw()+
-        theme(panel.grid.minor.x = element_blank(),
-              panel.grid.minor.y = element_blank())
-    }
-  }
-}
-
 scalegram_parallel = function(x, MODE, STD=TRUE, threshold=30, cores_used = detectCores() - 1){
   cl = makeCluster(cores_used)
-  clusterExport(cl=cl, varlist=c("x", "MODE", "STD", "threshold", "scalegram_main"), envir=environment())
-  out  = parApply(cl, as.matrix(x), 2, MODE=MODE, STD=TRUE, threshold=30, scalegram_main)
+  clusterExport(cl=cl, varlist=c("x", "MODE", "STD", "threshold", "scalegram"), envir=environment())
+  out  = parApply(cl, as.matrix(x), 2, MODE=MODE, STD=TRUE, threshold=30, scalegram)
   return(out)
 }
 
-rescale_variance = function(emp_scalegram_coarse, emp_scalegram_fine, scale_ratio){
-  rescale_factor = emp_scalegram_fine[scale == scale_ratio]$y_scale
-  dummy = emp_scalegram_coarse
-  dummy$scale = dummy$scale * scale_ratio
-  dummy$y_scale = t(t(dummy$y_scale) * rescale_factor)
-  return(dummy)
+scalegram_parallel_old = function(x, cores_used = detectCores() - 1){
+  cl = makeCluster(cores_used)
+  clusterExport(cl=cl, varlist=c("x", "scalegram"), envir=environment())
+  out  = parApply(cl, as.matrix(x), 2, scalegram)
+  return(out)
 }
 
-## Theoretical scalegrams
-# White noise (WN)
-generate_wn = function(sigma, delta){
-  stdev = sigma/(sqrt(delta))
-  return(stdev ^ 2)
-}
-# AR(1) process
-generate_ar_1 = function(sigma, delta, rho){
-  stdev = (sigma/(sqrt(delta))) * sqrt(((1 - rho ^ 2)-(2 * rho * (1 - rho^delta)) / delta)/((1 - rho) ^ 2))
-  return(stdev ^ 2)
-}
-# FGN process
-generate_fgn = function(sigma, delta, rho){
-  H = 0.5 * (log2(rho + 1) + 1)
-  stdev = (delta ^ (H - 1)) * sigma
-  return(stdev ^ 2)
-}
-# Harmonics
-generate_harmonic = function(delta, period){
-  stdev = (period / (pi * delta)) * abs(sin((pi * delta) / period))
-  return(stdev ^ 2)
-}
 
 
