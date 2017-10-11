@@ -1,6 +1,6 @@
 ## Plot scalegram ==============================================================
 ##==============================================================================
-plot_scalegram = function(X, ...){
+plot_scalegram = function(X, MODE = "s1", ...){
 
   '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
 
