@@ -1,52 +1,21 @@
 ## Plot scalegram ==============================================================
 ##==============================================================================
-plot_scalegram = function(X, MODE = "s1", INDEX = "", ...){  # INDEX is the column name that distinguishes each variable [previously it was Variable]
+plot_scalegram = function(df, MODE, transparancy){
 
-  '%!in%' <- function(x,y)!('%in%'(x,y)) # keep function inside for the 'parallel' package
+  cols = colorRampPalette(brewer.pal(9, "Set1"))(length(unique(df$Variable)))
 
-  # check if correct MODE is provided
-  if(MODE %!in% c("mu", "s1", "s2", "s3", "s4", "CV",
-                  "L1", "L2", "t2", "t3", "t4")){
-    return("Error: Invalid MODE. Select one of s1, s2, s3, s4, CV, L1, L2, t2, t3, t4")
-  } else {
-
-    if(is.ts(X)) {X = scalegram(as.vector(X), MODE)
-    } else if(is.vector(X)) {X = scalegram(X, MODE)
-    }
-
-    if(INDEX != ""){
-
-      if(length(unique(X$INDEX))>10){
-        transp <- 0.2
-      } else {
-        transp <- 1
-      }
-      ggplot(data = X, aes(x = scale, y = y_scale))+
-        geom_line(aes(group = interaction(INDEX),
-                      colour = INDEX), show.legend = FALSE, size = 0.5, alpha = transp) +
-        geom_point(aes(group = interaction(INDEX),
-                       colour = INDEX), show.legend = FALSE, alpha = transp) +
-        geom_tile(aes(fill = INDEX))+
-        scale_y_continuous(MODE) +
-        scale_x_log10("Aggregation scale [-]",
-                      labels = trans_format("log10", math_format(10^.x))) +
-        annotation_logticks(sides = "b") +
-        theme_bw()+
-        theme(panel.grid.minor.x = element_blank(),
-              panel.grid.minor.y = element_blank())
-      #      coord_fixed()
-
-    } else {
-      ggplot(data = X, aes(x = scale, y = y_scale))+
-        geom_line(show.legend = FALSE, size = 0.5) +
-        geom_point(show.legend = FALSE) +
-        scale_y_continuous(MODE) +
-        scale_x_log10("Aggregation scale [-]",
-                      labels = trans_format("log10", math_format(10^.x))) +
-        annotation_logticks(sides = "b") +
-        theme_bw()+
-        theme(panel.grid.minor.x = element_blank(),
-              panel.grid.minor.y = element_blank())
-    }
-  }
+   ggplot(data = df, aes(x = scale, y = y_scale))+
+    geom_line(aes(group = interaction(Variable),
+                  colour = factor(Variable)), size = 0.5, alpha = transparancy) +
+    geom_point(aes(group = interaction(Variable),
+                   colour = factor(Variable)), alpha = transparancy) +
+    scale_y_continuous(MODE) +
+    scale_x_log10("Aggregation scale [-]",
+                  labels = trans_format("log10", math_format(10^.x))) +
+    scale_colour_manual("", values = cols)+
+    annotation_logticks(sides = "b") +
+    theme_bw()+
+    theme(panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank())
 }
+
