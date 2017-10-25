@@ -89,7 +89,6 @@ scalegram_main <- function(x, MODE, STD, threshold){ #STD: standardize the scale
 
 }
 
-
 scalegram_parallel = function(x, MODE, STD, threshold, cores_used = detectCores() - 1, ...){
   cl = makeCluster(cores_used)
   clusterExport(cl = cl, varlist=c("x", "MODE", "STD", "threshold", "scalegram_main"), envir = environment())
@@ -97,7 +96,7 @@ scalegram_parallel = function(x, MODE, STD, threshold, cores_used = detectCores(
   return(out)
 }
 
-#' Main scalegram function.
+#' Main scalegram function
 #'
 #' @param x A vector, time series or a matrix.
 #' @param MODE the statistic used.
