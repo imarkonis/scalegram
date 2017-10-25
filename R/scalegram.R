@@ -11,6 +11,7 @@
 #' scalegram(dataset, "s1")
 #' scalegram(dataset[,1], "s2")
 #' @export
+
 scalegram <-
   function(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE){
     if (!is.numeric(x)) stop ("x should be numeric.")
