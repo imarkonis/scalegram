@@ -1,3 +1,5 @@
+#' @export
+
 scalegram_main <- function(x, MODE, STD, threshold){ #STD: standardize the scalegram, threshold: sample size at last scale
   library(moments) # load libraries inside for the 'parallel' package
   library(Lmoments)
