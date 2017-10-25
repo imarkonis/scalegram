@@ -2,20 +2,29 @@
 % Please edit documentation in R/scalegram.R
 \name{scalegram}
 \alias{scalegram}
-\title{Main scalegram function}
+\title{Determine and plot scalegram}
 \usage{
-scalegram(x, MODE = "s1", STD = TRUE, threshold = 30, PLOT = TRUE)
+scalegram(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE)
 }
 \arguments{
 \item{x}{A vector, time series or a matrix.}
 
-\item{MODE}{the statistic used.}
+\item{stat}{The statistic used (see Details).}
+
+\item{std}{If TRUE (default) standardize the scalegram to unit.}
+
+\item{threshold}{Sample size at last scale (see Details).}
+
+\item{plot}{If TRUE (default) the scalegram is also plotted.}
 }
 \value{
-A list with the scalegram of \code{x} for statistic \code{MODE} and the corresponding plot [ggplot object].
+A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
 }
 \description{
-Main scalegram function
+Estimates scalegram(s) of specific statistics and plots the result.
+}
+\details{
+Here are the details.
 }
 \examples{
 scalegram(dataset, "s1")

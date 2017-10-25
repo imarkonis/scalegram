@@ -2,20 +2,20 @@
 % Please edit documentation in R/graphics.R
 \name{plot_scalegram}
 \alias{plot_scalegram}
-\title{Plots scalegram}
+\title{Plots the scalegram.}
 \usage{
-plot_scalegram(df, MODE, transparancy)
+plot_scalegram(df, stat, transparancy)
 }
 \arguments{
-\item{MODE}{the statistic used.}
+\item{stat}{the statistic used.}
 
 \item{x}{A vector, time series or a matrix.}
 }
 \value{
-A list with the scalegram of \code{x} for statistic \code{MODE} and the corresponding plot [ggplot object].
+A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
 }
 \description{
-Plots scalegram
+Plots the scalegram.
 }
 \examples{
 scalegram(dataset, "s1")

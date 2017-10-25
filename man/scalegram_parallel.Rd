@@ -2,21 +2,21 @@
 % Please edit documentation in R/parallel.R
 \name{scalegram_parallel}
 \alias{scalegram_parallel}
-\title{Main scalegram function}
+\title{Function for parallel computing used when input data are in matrix format.}
 \usage{
-scalegram_parallel(x, MODE, STD, threshold, cores_used = detectCores() - 1,
+scalegram_parallel(x, stat, std, threshold, cores_used = detectCores() - 1,
   ...)
 }
 \arguments{
 \item{x}{A vector, time series or a matrix.}
 
-\item{MODE}{the statistic used.}
+\item{stat}{the statistic used.}
 }
 \value{
-A list with the scalegram of \code{x} for statistic \code{MODE} and the corresponding plot [ggplot object].
+A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
 }
 \description{
-Main scalegram function
+Function for parallel computing used when input data are in matrix format.
 }
 \examples{
 scalegram(dataset, "s1")

@@ -2,20 +2,20 @@
 % Please edit documentation in R/main.R
 \name{scalegram_main}
 \alias{scalegram_main}
-\title{Main scalegram function}
+\title{Main scalegram function called by scalegram.}
 \usage{
-scalegram_main(x, MODE, STD, threshold)
+scalegram_main(x, stat, std, threshold)
 }
 \arguments{
 \item{x}{A vector, time series or a matrix.}
 
-\item{MODE}{the statistic used.}
+\item{stat}{the statistic used.}
 }
 \value{
-A list with the scalegram of \code{x} for statistic \code{MODE} and the corresponding plot [ggplot object].
+A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
 }
 \description{
-Main scalegram function
+Main scalegram function called by scalegram.
 }
 \examples{
 scalegram(dataset, "s1")
