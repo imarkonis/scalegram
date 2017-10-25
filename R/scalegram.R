@@ -6,6 +6,7 @@
 #' @examples
 #' scalegram(dataset, "s1")
 #' scalegram(dataset[,1], "s2")
+#' @export scalegram
 
 scalegram = function(x, MODE = "s1", STD = TRUE, threshold = 30, PLOT = TRUE){
 
