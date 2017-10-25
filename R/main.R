@@ -8,7 +8,6 @@
 #' scalegram(dataset[,1], "s2")
 #' @export
 
-
 scalegram_main <- function(x, stat, std, threshold){ #std: standardize the scalegram, threshold: sample size at last scale
   library(moments) # load libraries inside for the 'parallel' package
   library(Lmoments)
