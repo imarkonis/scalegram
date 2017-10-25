@@ -1,5 +1,13 @@
-## Plot scalegram ==============================================================
-##==============================================================================
+#' Plots scalegram
+#'
+#' @param x A vector, time series or a matrix.
+#' @param MODE the statistic used.
+#' @return A list with the scalegram of \code{x} for statistic \code{MODE} and the corresponding plot [ggplot object].
+#' @examples
+#' scalegram(dataset, "s1")
+#' scalegram(dataset[,1], "s2")
+#' @export
+
 plot_scalegram = function(df, MODE, transparancy){
 
   cols = colorRampPalette(brewer.pal(9, "Set1"))(length(unique(df$Variable)))
