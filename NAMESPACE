@@ -3,4 +3,3 @@
 export(plot_scalegram)
 export(rescale_variance)
 export(scalegram)
-export(scalegram_main)

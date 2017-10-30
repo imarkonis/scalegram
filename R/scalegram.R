@@ -15,7 +15,8 @@
 scalegram <-
   function(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE) {
     if (!is.numeric(x)) stop ("x should be numeric.")
-    if (!is.vector(x) & !is.ts(x) & !is.matrix(x)) stop ("x should be either vector, or time series, or matrix object.")
+    if (!is.vector(x) & !is.ts(x) & !is.matrix(x))
+      stop ("x should be either vector, or time series, or matrix object.")
     if (is.ts(x)) x <- as.vector(x)
     if (is.vector(x)) {
       out = scalegram_main(x, stat, std, threshold)

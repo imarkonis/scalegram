@@ -11,7 +11,7 @@ scalegram(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE)
 
 \item{stat}{The statistic used (see Details).}
 
-\item{std}{If TRUE (default) standardize the scalegram to unit.}
+\item{std}{If TRUE (default) standardize the scalegram to unit, i.e., zero mean unit variance at the original time scale}
 
 \item{threshold}{Sample size at last scale (see Details).}
 
