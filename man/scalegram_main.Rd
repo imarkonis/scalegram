@@ -18,6 +18,6 @@ A list with the scalegram of \code{x} for statistic \code{stat} and the correspo
 Main scalegram function called by scalegram.
 }
 \examples{
-scalegram(dataset, "s1")
-scalegram(dataset[,1], "s2")
+scalegram(dataset, "sd")
+scalegram(dataset[,1], "var")
 }
