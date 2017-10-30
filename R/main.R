@@ -1,12 +1,3 @@
-#' Main scalegram function called by scalegram.
-#'
-#' @param x A vector, time series or a matrix.
-#' @param stat the statistic used.
-#' @return A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
-#' @examples
-#' scalegram(dataset, "sd")
-#' scalegram(dataset[,1], "var")
-
 scalegram_main <- function(x, stat, std, threshold){
   library(moments) # load libraries inside for the 'parallel' package
   library(Lmoments)

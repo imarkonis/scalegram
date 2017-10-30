@@ -2,7 +2,7 @@
 % Please edit documentation in R/scalegram.R
 \name{scalegram}
 \alias{scalegram}
-\title{Determine and plot scalegram}
+\title{Estimate and plot scalegram}
 \usage{
 scalegram(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE)
 }

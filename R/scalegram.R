@@ -1,4 +1,4 @@
-#' @title Determine and plot scalegram
+#' @title Estimate and plot scalegram
 #' @description Estimates scalegram(s) of specific statistics and plots the result.
 #' @param x A vector, time series or a matrix.
 #' @param stat The statistic used (see Details).
