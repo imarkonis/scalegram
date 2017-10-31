@@ -1,19 +1,42 @@
 #' @title Estimate and plot scalegram
 #' @description Estimates scalegram(s) of specific statistics and plots the result.
-#' @param x A vector, time series or a matrix.
-#' @param stat The statistic used (see Details).
-#' @param std If TRUE (default) standardize the scalegram to unit, i.e., zero mean unit variance at the original time scale
-#' @param threshold Sample size at last scale (see Details).
+#' @param x The dataset given as vector, time series or a matrix.
+#' @param stat The statistic which will be estimated across the scale continuum. Possible statistics are:
+#' \itemize{
+#'  \item{"mean" for mean,}
+#'  \item{"sd" for standard deviation,}
+#'  \item{"var" for variance,}
+#'  \item{"skew" for skewness,}
+#'  \item{"kurt" for kurtosis,}
+#'  \item{"cv" for coefficient of variance,}
+#'  \item{"L2" for L-scale,}
+#'  \item{"t2" for coefficient of L-variation,}
+#'  \item{"t3" for L-skewness,}
+#'  \item{"t4" for L-kurtosis.}
+#' }
+#' @param std If TRUE (default) standardize the scalegram to unit, i.e., zero mean and unit variance at the original time scale.
+#' @param threshold Sample size at the last scale (see Details).
 #' @param plot If TRUE (default) the scalegram is also plotted.
-#' @return A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
+#' @return A list containing the scalegram of \code{x} for the given \code{stat} statistic and the corresponding plot as a \emph{ggplot object}.
 #' @details Here are the details.
 #' @examples
-#' scalegram(dataset, "s1")
-#' scalegram(dataset[,1], "s2")
+#' scalegram(rnorm(1000))
+#'
+#' ## Plot scalegram in logarithmic y axis
+#' sgram_sd <- scalegram(owda[Lat == 46.25 & Lon == 16.5, scPDSI] , "L2")
+#' sgram_sd$scalegram_plot + scale_y_log10("L-scale")
+#'
+#' ## Plot matrix
+#' owda_mat = owda_mat = acast(owda, Time ~ Lon + Lat, value.var = "scPDSI")
+#' sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
+#'
+#'
+#'
 #' @export
 
+
 scalegram <-
-  function(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE) {
+  function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
     if (!is.numeric(x)) stop ("x should be numeric.")
     if (!is.vector(x) & !is.ts(x) & !is.matrix(x))
       stop ("x should be either vector, or time series, or matrix object.")

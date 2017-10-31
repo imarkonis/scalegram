@@ -4,21 +4,33 @@
 \alias{scalegram}
 \title{Estimate and plot scalegram}
 \usage{
-scalegram(x, stat = "s1", std = TRUE, threshold = 30, plot = TRUE)
+scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
 }
 \arguments{
-\item{x}{A vector, time series or a matrix.}
+\item{x}{The dataset given as vector, time series or a matrix.}
 
-\item{stat}{The statistic used (see Details).}
+\item{stat}{The statistic which will be estimated across the scale continuum. Possible statistics are:
+\itemize{
+ \item{"mean" for mean,}
+ \item{"sd" for standard deviation,}
+ \item{"var" for variance,}
+ \item{"skew" for skewness,}
+ \item{"kurt" for kurtosis,}
+ \item{"cv" for coefficient of variance,}
+ \item{"L2" for L-scale,}
+ \item{"t2" for coefficient of L-variation,}
+ \item{"t3" for L-skewness,}
+ \item{"t4" for L-kurtosis.}
+}}
 
-\item{std}{If TRUE (default) standardize the scalegram to unit, i.e., zero mean unit variance at the original time scale}
+\item{std}{If TRUE (default) standardize the scalegram to unit, i.e., zero mean and unit variance at the original time scale.}
 
-\item{threshold}{Sample size at last scale (see Details).}
+\item{threshold}{Sample size at the last scale (see Details).}
 
 \item{plot}{If TRUE (default) the scalegram is also plotted.}
 }
 \value{
-A list with the scalegram of \code{x} for statistic \code{stat} and the corresponding plot [ggplot object].
+A list containing the scalegram of \code{x} for the given \code{stat} statistic and the corresponding plot as a \emph{ggplot object}.
 }
 \description{
 Estimates scalegram(s) of specific statistics and plots the result.
@@ -27,6 +39,10 @@ Estimates scalegram(s) of specific statistics and plots the result.
 Here are the details.
 }
 \examples{
-scalegram(dataset, "s1")
-scalegram(dataset[,1], "s2")
+scalegram(owda, "sd")
+
+## Plot scalegram in logarithmic y axis
+scaleg_sd_plot = scalegram(dataset, "L2", plot = F)[[2]]
+scaleg_sd_plot + scale_y_log10()
+
 }
