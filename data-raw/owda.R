@@ -6,6 +6,5 @@
 #' scalegram(dataset[,1], "s2")
 #' @export
 
-library(data.table)
-owda <- data.table(read.csv(file = 'owda.csv'))
+owda <- read.csv(file = 'owda.csv')
 devtools::use_data(owda)

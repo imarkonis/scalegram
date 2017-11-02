@@ -23,7 +23,8 @@
 #' scalegram(rnorm(1000))
 #'
 #' ## Plot scalegram in logarithmic y axis
-#' sgram_sd <- scalegram(owda[Lat == 46.25 & Lon == 16.5, scPDSI] , "L2")
+#' owda_site = owda[owda$Lat == 46.25 & owda$Lon == 16.5,]$scPDSI
+#' sgram_sd <- scalegram(owda_site, "L2")
 #' sgram_sd$scalegram_plot + scale_y_log10("L-scale")
 #'
 #' ## Plot matrix

@@ -39,10 +39,17 @@ Estimates scalegram(s) of specific statistics and plots the result.
 Here are the details.
 }
 \examples{
-scalegram(owda, "sd")
+scalegram(rnorm(1000))
 
 ## Plot scalegram in logarithmic y axis
-scaleg_sd_plot = scalegram(dataset, "L2", plot = F)[[2]]
-scaleg_sd_plot + scale_y_log10()
+owda_site = owda[owda$Lat == 46.25 & owda$Lon == 16.5,]$scPDSI
+sgram_sd <- scalegram(owda_site, "L2")
+sgram_sd$scalegram_plot + scale_y_log10("L-scale")
+
+## Plot matrix
+owda_mat = owda_mat = acast(owda, Time ~ Lon + Lat, value.var = "scPDSI")
+sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
+
+
 
 }
