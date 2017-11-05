@@ -36,8 +36,7 @@
 #' @export
 
 
-scalegram <-
-  function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
+scalegram <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
     if (!is.numeric(x)) stop ("x should be numeric.")
     if (!is.vector(x) & !is.ts(x) & !is.matrix(x))
       stop ("x should be either vector, or time series, or matrix object.")
@@ -45,7 +44,8 @@ scalegram <-
     if (is.vector(x)) {
       out = scalegram_main(x, stat, std, threshold)
       out = out[complete.cases(out),]
-      out$Variable = "variable"
+      # make proper column names
+      colnames(out)[2] = stat 
     }
     else {
       out <- scalegram_parallel(x, stat, std, threshold)
@@ -58,17 +58,13 @@ scalegram <-
         out_matr[out[[i]]$scale,i] <- out[[i]]$y_scale
       }
       out <- melt(out_matr)
-      colnames(out) <- c("scale", "Variable", "y_scale")
+      # make proper column names
+      colnames(out) <- c("scale", "Variable", stat)
       out <- out[complete.cases(out), ]
     }
+        
     if (plot == TRUE){
-      if(length(unique(out$Variable)) > 10){
-        transp <- 1 / log(length(unique(out$Variable)))
-      } else {
-        transp <- 1
-      }
-      plot_sc <- plot_scalegram(out, stat, transparancy = transp)
-      print(plot_sc)
+      plot_sc <- plot_scalegram(out)
       return(list(scalegram_df   = out,
                   scalegram_plot = plot_sc))
     }

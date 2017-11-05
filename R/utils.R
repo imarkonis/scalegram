@@ -8,11 +8,10 @@
 #' scalegram(dataset[,1], "s2")
 #' @export
 
-rescale_variance = function(emp_scalegram_coarse, emp_scalegram_fine, scale_ratio){
-  rescale_factor = emp_scalegram_fine[scale == scale_ratio]$y_scale
+rescale_scalegram <- function(emp_scalegram_coarse, emp_scalegram_fine, scale_ratio, stat){
+  rescale_factor = emp_scalegram_fine[emp_scalegram_fine$scale == scale_ratio, stat]
   dummy = emp_scalegram_coarse
   dummy$scale = dummy$scale * scale_ratio
-  dummy$y_scale = t(t(dummy$y_scale) * rescale_factor)
+  dummy[,stat] = t(t(dummy[,stat]) * rescale_factor)
   return(dummy)
 }
-
