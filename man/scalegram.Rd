@@ -7,33 +7,37 @@
 scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
 }
 \arguments{
-\item{x}{The dataset given as vector, time series or a matrix.}
+\item{x}{A numeric vector, time series or matrix.}
 
-\item{stat}{The statistic which will be estimated across the scale continuum. Possible statistics are:
+\item{stat}{The statistic which will be estimated across the cross-scale continuum. Suitable options are:
 \itemize{
- \item{"mean" for mean,}
  \item{"sd" for standard deviation,}
  \item{"var" for variance,}
  \item{"skew" for skewness,}
  \item{"kurt" for kurtosis,}
- \item{"cv" for coefficient of variance,}
- \item{"L2" for L-scale,}
+ \item{"l2" for L-scale,}
  \item{"t2" for coefficient of L-variation,}
  \item{"t3" for L-skewness,}
  \item{"t4" for L-kurtosis.}
 }}
 
-\item{std}{If TRUE (default) standardize the scalegram to unit, i.e., zero mean and unit variance at the original time scale.}
+\item{std}{logical. If TRUE (the default) the scalegram is standardized to unit, i.e., zero mean and unit variance in the original time scale.}
 
-\item{threshold}{Sample size at the last scale (see Details).}
+\item{threshold}{numeric. Sample size of the time series at the last aggregated scale (see Details).}
 
-\item{plot}{If TRUE (default) the scalegram is also plotted.}
+\item{plot}{logical. If TRUE (the default) the scalegram is plotted.}
 }
 \value{
-A list containing the scalegram of \code{x} for the given \code{stat} statistic and the corresponding plot as a \emph{ggplot object}.
+A list with two elemets:
+\describe{
+  \item{\code{sg_df}}{Data frame containing \code{scale} and corresponding values for \code{stat}.
+  If \code{x} is matrix then \code{variable} corresponds to column names.}
+  \item{\code{sg_plot}}{Second item}
+} containing the scalegram of \code{x} for the given \code{stat} statistic
+and the corresponding plot as a \emph{ggplot object}. The
 }
 \description{
-Estimates scalegram(s) of specific statistics and plots the result.
+The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
 }
 \details{
 Here are the details.
@@ -42,14 +46,21 @@ Here are the details.
 scalegram(rnorm(1000))
 
 ## Plot scalegram in logarithmic y axis
-owda_site = owda[owda$Lat == 46.25 & owda$Lon == 16.5,]$scPDSI
+owda_site <- owda[owda$Lat == 46.25 & owda$Lon == 16.5, ]$scPDSI
 sgram_sd <- scalegram(owda_site, "L2")
-sgram_sd$scalegram_plot + scale_y_log10("L-scale")
+sgram_sd$sg_plot + scale_y_log10("L-scale")
 
-## Plot matrix
-owda_mat = owda_mat = acast(owda, Time ~ Lon + Lat, value.var = "scPDSI")
+## Plot scalegram in tidy format
+owda_mat <- acast(owda, Time ~ Lon + Lat, value.var = "scPDSI") #transform them into matrix
 sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
 
-
+## Plot two scalegrams in a single plot
+site_a <- owda[owda$Lat == 46.25 & owda$Lon == 16.5, ]$scPDSI
+site_b <- owda[owda$Lat == 46.75 & owda$Lon == 16.5, ]$scPDSI
+aa <- scalegram(site_a)
+bb <- scalegram(site_b)
+aa$sg_plot +
+geom_line(data=bb$sg_df, col = "red") +
+geom_point(data=bb$sg_df, col = "red")
 
 }
