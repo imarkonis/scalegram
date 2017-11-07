@@ -55,7 +55,6 @@ scalegram <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
     if (is.vector(x)) {
       out <- scalegram_main(x, stat, std, threshold)
       out <- out[complete.cases(out),]
-      # make proper column names
       colnames(out)[2] = stat
     }
     else {
