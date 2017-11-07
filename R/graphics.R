@@ -13,7 +13,6 @@ plot_scalegram <- function(df){
   } else { # i.e., working with many variables
     cols <- colorRampPalette(c("#4575b4", "#78c679", "#f46d43", "#74add1", "#807dba", "#fee090", "#d9f0a3", "#d73027",
                                "#abd9e9", "#fdae61", "#fa9fb5", "#ffed6f"), space = "rgb")(length(unique(df$variable)))
-
     if(length(unique(df$variable)) > 20){
       transp = 1 / log(length(unique(df$variable)))
     } else {
