@@ -29,12 +29,12 @@ scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
 }
 \value{
 A list with two elemets:
-\describe{
-  \item{\code{sg_df}}{Data frame containing \code{scale} and corresponding values for \code{stat}.
+\itemize{
+ \item{\code{sg_df} : Data frame containing \code{scale} and corresponding values for \code{stat}.
   If \code{x} is matrix then \code{variable} corresponds to column names.}
-  \item{\code{sg_plot}}{Second item}
-} containing the scalegram of \code{x} for the given \code{stat} statistic
-and the corresponding plot as a \emph{ggplot object}. The
+ \item{\code{sg_plot} : containing the scalegram of \code{x} for the given \code{stat} statistic
+ and the corresponding plot as a \emph{ggplot object}. The}
+}
 }
 \description{
 The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
@@ -44,13 +44,14 @@ Here are the details.
 }
 \examples{
 scalegram(rnorm(1000))
+scalegram(replicate(100, rnorm(3000)))
 
 ## Plot scalegram in logarithmic y axis
 owda_site <- owda[owda$Lat == 46.25 & owda$Lon == 16.5, ]$scPDSI
 sgram_sd <- scalegram(owda_site, "L2")
 sgram_sd$sg_plot + scale_y_log10("L-scale")
 
-## Plot scalegram in tidy format
+## Plot scalegram from tidy format
 owda_mat <- acast(owda, Time ~ Lon + Lat, value.var = "scPDSI") #transform them into matrix
 sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
 
