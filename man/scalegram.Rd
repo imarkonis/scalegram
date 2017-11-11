@@ -28,27 +28,28 @@ scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
 \item{plot}{logical. If TRUE (the default) the scalegram is plotted.}
 }
 \value{
-A list with two elemets:
+If \code{plot = TRUE}, the \code{scalegram} returns a list containing:
 \itemize{
- \item{\code{sg_df} : Data frame containing \code{scale} and corresponding values for \code{stat}.
-  If \code{x} is matrix then \code{variable} corresponds to column names.}
- \item{\code{sg_plot} : containing the scalegram of \code{x} for the given \code{stat} statistic
- and the corresponding plot as a \emph{ggplot object}. The}
+ \item{\code{sg_df}: Data frame of the timeseries values for the selected \code{stat} at each \code{scale}.
+  If \code{x} is a matrix then the column named \code{variable} corresponds to the matrix column names.}
+ \item{\code{sg_plot}: The plot of \code{scale} versus \code{stat} as a \emph{ggplot} object.}
 }
+If \code{plot = FALSE}, then it returns only the first element of the list as a data.frame.
 }
 \description{
 The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
 }
 \details{
-Here are the details.
+If \code{x} is a matrix, then \code{scalegram} will incorporate a parallel computing procedure to increase resources efficiency.
 }
 \examples{
 scalegram(rnorm(1000))
 scalegram(replicate(100, rnorm(3000)))
 
 ## Plot scalegram in logarithmic y axis
-owda_site <- owda[owda$Lat == 46.25 & owda$Lon == 16.5, ]$scPDSI
-sgram_sd <- scalegram(owda_site, "L2")
+data(owda)
+owda_site <- owda[owda$Lat == 50.25 & owda$Lon == 16.5, ]$scPDSI
+sgram_sd <- scalegram(owda_site, "l2")
 sgram_sd$sg_plot + scale_y_log10("L-scale")
 
 ## Plot scalegram from tidy format
@@ -56,12 +57,19 @@ owda_mat <- acast(owda, Time ~ Lon + Lat, value.var = "scPDSI") #transform them 
 sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
 
 ## Plot two scalegrams in a single plot
-site_a <- owda[owda$Lat == 46.25 & owda$Lon == 16.5, ]$scPDSI
-site_b <- owda[owda$Lat == 46.75 & owda$Lon == 16.5, ]$scPDSI
+site_a <- owda[owda$Lat == 50.25 & owda$Lon == 16.5, ]$scPDSI
+site_b <- owda[owda$Lat == 50.75 & owda$Lon == 16.5, ]$scPDSI
 aa <- scalegram(site_a)
 bb <- scalegram(site_b)
 aa$sg_plot +
 geom_line(data=bb$sg_df, col = "red") +
 geom_point(data=bb$sg_df, col = "red")
 
+}
+\references{
+Markonis, Y., & Koutsoyiannis, D. (2013). Climatic variability over time scales spanning nine orders of magnitude:
+Connecting Milankovitch cycles with Hurst–Kolmogorov dynamics. Surveys in Geophysics, 34(2), 181-207.
+
+Pappas, C., Mahecha, M. D., Frank, D. C., Babst, F., & Koutsoyiannis, D. (2017).
+Ecosystem functioning is enveloped by hydrometeorological variability. Nature Ecology & Evolution, 1(9), 1263.
 }

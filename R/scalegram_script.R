@@ -46,7 +46,7 @@ scalegram_main <- function(x, stat, std, threshold){
           } else if (stat == "kurt"){
             scale_df[i, "y_scale"] <- kurtosis(x_agg, na.rm = T)
             # L-moments ------------------------------------------------------------
-          } else if (stat == "L2"){ # stat: L2, L-scale
+          } else if (stat == "l2"){ # stat: L2, L-scale
             scale_df[i, "y_scale"] <- Lmoments(x_agg, rmax = 2, na.rm = T)[, "L2"]
           } else if (stat == "t2"){ # stat: L-moment ratio L2/L1
             scale_df[i, "y_scale"] <-  Lmoments(x_agg, rmax = 2, na.rm = T)[, "L2"] /
