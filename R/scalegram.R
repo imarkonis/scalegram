@@ -59,7 +59,7 @@
 #'
 #' @export
 
-scalegram <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
+scalegram  <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE) {
     if (!is.numeric(x)) stop ("x should be numeric.")
     if (!is.vector(x) & !is.ts(x) & !is.matrix(x))
       stop ("x should be vector, time series or matrix object.")
