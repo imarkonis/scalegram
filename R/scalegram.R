@@ -14,7 +14,7 @@
 #' }
 #' @param std logical. If TRUE (the default) the scalegram is standardized to unit, i.e., zero mean and unit variance in the original time scale.
 #' @param threshold numeric. Sample size of the time series at the last aggregated scale (see Details).
-#' @param plot logical. If TRUE (the default) the scalegram is plotted.
+#' @param plot logical. If TRUE (the default) the scalegram is then plotted.
 #'
 #' @details If \code{x} is a matrix, then \code{scalegram} will incorporate a parallel computing procedure to increase resources efficiency.
 #'
