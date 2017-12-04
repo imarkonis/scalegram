@@ -28,7 +28,7 @@
 #'
 #' @references
 #'
-#' Markonis, Y., & Koutsoyiannis, D. (2013). Climatic variability over time scales spanning nine orders of magnitude:
+#' Markonis, Y., & Koutsoyiannis, D. (2013). Climatic variability over time scales spanning nine orders of magnitude :
 #' Connecting Milankovitch cycles with Hurst–Kolmogorov dynamics. Surveys in Geophysics, 34(2), 181-207.
 #'
 #' Pappas, C., Mahecha, M. D., Frank, D. C., Babst, F., & Koutsoyiannis, D. (2017).
