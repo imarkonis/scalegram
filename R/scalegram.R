@@ -12,11 +12,14 @@
 #'  \item{"t3" for L-skewness,}
 #'  \item{"t4" for L-kurtosis.}
 #' }
-#' @param std logical. If TRUE (the default) the scalegram is standardized to unit, i.e., zero mean and unit variance in the original time scale.
-#' @param threshold numeric. Sample size of the time series at the last aggregated scale (see Details).
+#' @param std logical. If TRUE (the default) the scalegram is standardized to unit,
+#' i.e., zero mean and unit variance in the original time scale.
+#' @param threshold numeric. Sample size of the time series at the last aggregated
+#' scale (see Details).
 #' @param plot logical. If TRUE (the default) the scalegram is plotted.
 #'
-#' @details If \code{x} is a matrix, then \code{scalegram} will incorporate a parallel computing procedure to increase resources efficiency.
+#' @details If \code{x} is a matrix, then \code{scalegram} will incorporate a
+#' parallel computing procedure to increase resources efficiency.
 #'
 #' @return  If \code{plot = TRUE}, the \code{scalegram} returns a list containing:
 #' \itemize{
