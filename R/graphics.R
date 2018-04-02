@@ -1,6 +1,6 @@
 plot_scalegram <- function(df, logscale_x=T, logscale_y=T){
-  if (ncol(df) == 2){ # i.e., working with only one variable
-    gp = ggplot(data = df, aes_string(x = colnames(df)[1], y = colnames(df)[2])) +
+  if (length(unique(df$variable)) == 1){ # i.e., working with only one variable
+    gp = ggplot(data = df, aes_string(x = "scale", y = "value")) +
       geom_line(size = 0.5) +
       geom_point() +
       theme_bw() +
@@ -8,8 +8,12 @@ plot_scalegram <- function(df, logscale_x=T, logscale_y=T){
             panel.grid.minor.y = element_blank())
   } else { # i.e., working with many variables
     cols <- colorRampPalette(c("#4575b4", "#abd9e9"), space = "rgb")(length(unique(df$variable)))
+    if(length(unique(df$variable)) == 2){
+    transp = 0.8 
+    }else{
     transp = 1 / log(length(unique(df$variable)))
-    gp = ggplot(data = df, aes_string(x = colnames(df)[1], y = colnames(df)[2])) +
+    }
+    gp = ggplot(data = df, aes_string(x = "scale", y = "value")) +
       geom_line(aes(group = interaction(variable),
                     colour = factor(variable)), size = 0.5, alpha = transp) +
       geom_point(aes(group = interaction(variable),
@@ -17,8 +21,7 @@ plot_scalegram <- function(df, logscale_x=T, logscale_y=T){
       scale_colour_manual("", values = cols) +
       theme_bw() +
       theme(panel.grid.minor.x = element_blank(),
-            panel.grid.minor.y = element_blank(),
-            legend.position="none")
+            panel.grid.minor.y = element_blank())
   }
   
   if(logscale_x == T){
@@ -27,7 +30,7 @@ plot_scalegram <- function(df, logscale_x=T, logscale_y=T){
   gpp = gp + scale_x_continuous("Aggregation scale [-]")
   }
   if(logscale_y == T){
-  gppp = gpp + scale_y_log10(colnames(df)[2], labels = trans_format("log10", math_format(10 ^ .x))) + annotation_logticks(sides = "b")
+  gppp = gpp + scale_y_log10(colnames(df)[2], labels = trans_format("log10", math_format(10 ^ .x)), breaks=c(round(min(df[,"value"], na.rm=T), 5), 1)) + annotation_logticks(sides = "b")
   } else {
   gppp = gpp + scale_y_continuous(colnames(df)[2]) 
   }
@@ -35,3 +38,5 @@ plot_scalegram <- function(df, logscale_x=T, logscale_y=T){
   print(gppp)
 
 }
+
+

@@ -6,7 +6,8 @@ scalegram  <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE, 
     if (is.vector(x)) {
       out <- scalegram_main(x, stat, std, threshold)
       out <- out[complete.cases(out),]
-      colnames(out)[2] = stat
+      colnames(out)[2] = "value"
+      out$variable = "Variable"
     }
     else {
       if(is.null(colnames(x))){
@@ -16,7 +17,7 @@ scalegram  <- function(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE, 
       out <- do.call(rbind.data.frame, out_list)
       out$variable <- rep(names(out_list), each = nrow(out_list[[1]]))
       rownames(out) = NULL
-      colnames(out)[2] = stat
+      colnames(out)[2] = "value"
     }
 
     if (plot == TRUE){
