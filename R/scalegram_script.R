@@ -2,16 +2,14 @@ scalegram_main <- function(x, stat, std, threshold){
   library(moments) # load libraries inside for the 'parallel' package
   library(Lmoments)
   '%!in%' <- function(x, y)!('%in%'(x, y)) # keep function inside for the 'parallel' package
-  if (stat %!in% c("mean", "sd", "var", "skew", "kurt", "cv",  # check if correct stat is provided
-                   "l2", "t2", "t3", "t4"))
-    stop("Error: Invalid stat. Select one of mean, sd, var,
-         skew, kurt, cv, l2, t2, t3, t4.")
+  if (stat %!in% c("mean", "sd", "var", "skew", "kurt", "cv", "l2", "t2", "t3", "t4"))
+    stop("Error: Invalid stat. Select one of mean, sd, var, skew, kurt, cv, l2, t2, t3, t4.")
   nna <- sum(!is.na(x)) # actual length without accounting for missing values
   max_agg_scale <- round(nna / threshold, 0) # aggregation scale up to 30% of the sample size does not count NAs
   if (max_agg_scale != 0 & nna > 2 * threshold){ # check for adequate time series length
     scale_df <- data.frame(scale = 1:max_agg_scale, y_scale = NA)
-    if (std == TRUE){
-      x <- scale(x, center = TRUE, scale = TRUE)
+    if (std == T){
+      x <- scale(x, center = T, scale = T)
     }
     # classic moments ------------------------------------------------------------
     if (stat == "sd"){
