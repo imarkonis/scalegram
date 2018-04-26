@@ -23,7 +23,7 @@ scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast =
     if (std == T){  # standardize
       x <- scale(x, center = T, scale = T)
     }
-    out <- foreach (i = timescales, .combine = 'c') %dopar%  {# loop around aggregation scale
+    out <- foreach (i = timescales, .combine = 'c') %dopar%  {# parallel loop around aggregation scale
       x_agg <- as.numeric(tapply(x, (seq_along(x) - 1) %/% i, mean, na.rm = T)) # estimate aggregated values for scale i
       if (sum(!is.na(x_agg)) > threshold){ # have at least 30 values for the y_scale estimation
         # classic moments ------------------------------------------------------
@@ -38,7 +38,7 @@ scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast =
         else if (stat == "t3"){Lcoefs(x_agg,rmax = 4, na.rm = T)[, "tau3"]}   # stat: L-moment ratio L3/L2
         else if (stat == "t4"){Lcoefs(x_agg, rmax = 4, na.rm = T)[, "tau4"]}  # stat: L-moment ratio L4/L3
       }
-    } # loop around aggregation scale
+    } # paralel loop around aggregation scale
   } else {
     return("Error: Time series length too short!")
   }
