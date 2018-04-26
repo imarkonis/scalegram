@@ -1,4 +1,5 @@
-plot_scalegram <- function(df, log_x = T, log_y = T){
+plot_scalegram <- function(x, log_x = T, log_y = T){
+  df <- as.data.frame(x)
   gp <- ggplot(data = df, aes_string(x = "scale", y = colnames(df)[2])) +
     geom_line(size = 0.5) +
     geom_point() +
@@ -26,4 +27,3 @@ plot_scalegram <- function(df, log_x = T, log_y = T){
   }
   print(gppp)
 }
-

@@ -7,11 +7,11 @@ scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast =
 
   out <- vector()
   nna <- sum(!is.na(x)) # actual length without accounting for missing values
-  max_agg_scale <- round(nna / threshold, 0) # aggregation scale up to 30% of the sample size does not count NAs
+  max_agg_scale <- round(nna / threshold, 0) # aggregation scale up to sample size of 30 values does not count NAs
   timescales <- 1:max_agg_scale
   if(fast == T){
     timescales <- c(1:9 %o% 10^(0:30))
-    timescales <- timescales[timescales < max_agg_scale]
+    timescales <- timescales[timescales <= max_agg_scale]
   }
   # Parralel computing
   no_cores <- as.numeric(Sys.getenv('NUMBER_OF_PROCESSORS')) - 1
@@ -20,14 +20,13 @@ scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast =
   registerDoSNOW(cluster)
 
   if (max_agg_scale != 0 & nna > 2 * threshold){ # check for adequate time series length
-    if (std == T){
+    if (std == T){  # standardize
       x <- scale(x, center = T, scale = T)
     }
-    out <- foreach (i = timescales) %dopar%  {# loop around aggregation scale
+    out <- foreach (i = timescales, .combine = 'c') %dopar%  {# loop around aggregation scale
       x_agg <- as.numeric(tapply(x, (seq_along(x) - 1) %/% i, mean, na.rm = T)) # estimate aggregated values for scale i
-      x_agg <- x_agg[-length(x_agg)]
-      if (sum(!is.na(x_agg)) >= threshold){ # have at least 30 values for the y_scale estimation
-        # classic moments -------------------------------------------------------
+      if (sum(!is.na(x_agg)) > threshold){ # have at least 30 values for the y_scale estimation
+        # classic moments ------------------------------------------------------
         if (stat == "sd"){sd(x_agg, na.rm = T)}
         else if (stat == "var"){var(x_agg, na.rm = T)}
         else if (stat == "skew"){skewness(x_agg, na.rm = T)}
@@ -44,9 +43,9 @@ scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast =
     return("Error: Time series length too short!")
   }
   stopCluster(cluster)
-
-  out <- data.frame(scale = timescales[1:(length(timescales))], value = unlist(out))
-  colnames(out)[2] = stat
+  out <- out[-length(out)]
+  out <- matrix(c(timescales[1:length(out)], out), ncol = 2)
+  colnames(out) = c("scale", stat)
 
   if (plot == T){
     plot_sc <- plot_scalegram(out, ...)
