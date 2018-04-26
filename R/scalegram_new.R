@@ -16,6 +16,7 @@ scalegram_fun <- function(x, thres = 30, scale_fun = var){  #x is vector
   return(out)
 }
 
+#This is the only thing that runs faster
 scalegram_fun_par <- function(x, thres = 30, scale_fun = var){  #x is vector
   ts_length <- length(x)
   x_df <- as.data.frame(x)
