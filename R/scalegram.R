@@ -1,4 +1,4 @@
-scalegram  <- function(x, stat = "sd", std = T, threshold = 30, plot = T, fast = F, ...) {
+scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast = F, ...) {
   if (!is.numeric(x)) stop ("x should be numeric.")
   if (!is.vector(x)) stop ("x should be vector.")
   '%!in%' <- function(x, y)!('%in%'(x, y)) # keep function inside for the 'parallel' package
