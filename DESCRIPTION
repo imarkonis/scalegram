@@ -12,7 +12,7 @@ Depends: R (>= 3.3.2), ggplot2, scales, moments, Lmoments, foreach
 License: GPL-2
 Encoding: UTF-8
 LazyData: True
-URL: http://github.com/markonis/scalegram
-BugReports: htp://github.com/markonis/scalegram/issues
+URL: http://github.com/imarkonis/scalegram
+BugReports: htp://github.com/imarkonis/scalegram/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
