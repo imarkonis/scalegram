@@ -48,8 +48,8 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
   colnames(out) = c("scale", stat)
 
   if (plot == T){
-    plot_sc <- plot_scalegram(out, ...)
-    return(list(sg_df   = out,
+    plot_sc <- scalegram_plot(out, ...)
+    return(list(sg_data   = out,
                 sg_plot = plot_sc))
   }
   else {

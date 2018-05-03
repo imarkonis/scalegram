@@ -2,8 +2,13 @@
 \alias{scalegram}
 \title{Estimate and plot scalegram}
 \usage{
-scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
+scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE, fast = FALSE, ...)
 }
+
+\description{
+The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
+}
+
 \arguments{
 \item{x}{A numeric vector, time series or matrix.}
 
@@ -27,24 +32,18 @@ scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE)
 
 \item{fast}{logical. If TRUE the scalegram is estimated only in logarithmic scale; 1, 2, 3, ... , 10, 20, 30, ... , 100, 200, 300 etc.}
 
-\item{...}{log_x & log_y (default TRUE) for setting the axes of the scalegram plot to logarithmic scale.}
+\item{...}{log_x and log_y (default TRUE) for setting the axes of the scalegram plot to logarithmic scale.}
 }
 
 \value{
 If \code{plot = TRUE}, the \code{scalegram} returns a list containing:
 \itemize{
- \item{\code{sg_df}: Data frame of the timeseries values for the selected \code{stat} at each \code{scale}.
-  If \code{x} is a matrix then the column named \code{variable} corresponds to the matrix column names.}
- \item{\code{sg_plot}: The plot of \code{scale} versus \code{stat} as a \emph{ggplot} object.}
+ \item{\code{sg_data}: Matrix of the timeseries values for the selected \code{stat} at each \code{scale}.
+ \item{\code{sg_plot}: Plot of \code{scale} versus \code{stat} as a \emph{ggplot} object.}
 }
-If \code{plot = FALSE}, then it returns only the first element of the list as a data.frame.
+If \code{plot = FALSE}, then it returns only the matrix of the timeseries values for the selected \code{stat} at each \code{scale}.
 }
-\description{
-The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
-}
-\details{
-If \code{x} is a matrix, then \code{scalegram} will incorporate a parallel computing procedure to increase resources efficiency.
-}
+
 \examples{
 scalegram(rnorm(1000))
 
@@ -67,6 +66,7 @@ aa$sg_plot +
 geom_line(data=bb$sg_df, col = "red") +
 geom_point(data=bb$sg_df, col = "red")
 
+ plot_scalegram(scalegram(rnorm(100000), fast = T, plot = F), wn = T)
 }
 \references{
 Markonis, Y., & Koutsoyiannis, D. (2013). Climatic variability over time scales spanning nine orders of magnitude:
