@@ -1,6 +1,7 @@
 scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
+  colnames(x) <- c("scale", "Value")
   df <- as.data.frame(x)
-  gp <- ggplot(data = df, aes_string(x = "scale", y = colnames(df)[2])) +
+  gp <- ggplot(data = df, aes_string(x = "scale", y = "Value")) +
     geom_line(size = 0.5) +
     geom_point() +
     theme_bw() +
@@ -17,13 +18,13 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
     gpp <- gp + scale_x_continuous("Aggregation scale [-]")
   }
   if(log_y == T){
-    gppp <- gpp + scale_y_log10(colnames(df)[2], labels = trans_format("log10", math_format(10^.x)),
+    gppp <- gpp + scale_y_log10("Value", labels = trans_format("log10", math_format(10^.x)),
                                 breaks = trans_breaks("log10",
                                                       n = abs(round(log10(min(df[, 2], na.rm = T)))) + 1,
                                                       function(x) 10 ^ x)) +
       annotation_logticks(sides = "b")
   } else {
-    gppp <- gpp + scale_y_continuous(colnames(df)[2])
+    gppp <- gpp + scale_y_continuous("Value")
   }
   if(wn == T){
     gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark red")
@@ -32,6 +33,8 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
 }
 
 scalegram_multiplot <- function(df, log_x = T, log_y = T){
+  colnames(df) <- c("scale", "value", "variable")
+  df <- as.data.frame(df)
   cols <- colorRampPalette(c("#4575b4", "#abd9e9"), space = "rgb")(length(unique(df$variable)))
   if(length(unique(df$variable)) == 2){
     transp = 0.9
@@ -58,13 +61,13 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T){
     gpp <- gp + scale_x_continuous("Aggregation scale [-]")
   }
   if(log_y == T){
-    gppp <- gpp + scale_y_log10(colnames(df)[2], labels = trans_format("log10", math_format(10^.x)),
+    gppp <- gpp + scale_y_log10("Value", labels = trans_format("log10", math_format(10^.x)),
                                 breaks = trans_breaks("log10",
                                                       n = abs(round(log10(min(df[, 2], na.rm = T)))) + 1,
                                                       function(x) 10 ^ x)) +
       annotation_logticks(sides = "b")
   } else {
-    gppp <- gpp + scale_y_continuous(colnames(df)[2])
+    gppp <- gpp + scale_y_continuous("Value")
   }
   print(gppp)
 }
