@@ -1,6 +1,9 @@
-test_dt = data.table(cbind(type = sample(c(0,1), size = 1000, replace = T), value = rnorm(500)))
-test_dt_scale = test_dt[, scalegram(value), type]
+test <- owda
+test[, variable := .GRP, by = .(Lat, Lon)]
+tt = tapply(test$scPDSI, test$variable, scalegram, plot = F, simplify = T)
+tt = mapply(cbind, tt, "variable" = names(tt), SIMPLIFY=F)
+tt = do.call(rbind.data.frame, tt)
+tt$scale = as.numeric(as.character(tt$scale))
+tt$var = as.numeric(as.character(tt$var))
 
-plot_scalegram(test_dt_scale, INDEX = "type")
-
-library(githubinstall)
+scalegram_multiplot(tt)
