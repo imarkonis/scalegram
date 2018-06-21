@@ -12,40 +12,38 @@ require(data.table)
 require(reshape2)
 
 transform.dt.to.brick = function(my.dt, variable.name) {
-array.from.dt = acast(my.dt, lat ~ lon ~ time, value.var = variable.name)
-my.brick = brick(array.from.dt, ymn = min(as.numeric(rownames(array.from.dt))),
-ymx = max(as.numeric(rownames(array.from.dt))), xmn = min(as.numeric(colnames(array.from.dt))),
-xmx = max(as.numeric(colnames(array.from.dt))))
-my.brick = flip(my.brick, direction = "2")
-return(my.brick)
+  array.from.dt = acast(my.dt, lat ~ lon ~ time, value.var = variable.name)
+  my.brick = brick(array.from.dt, ymn = min(as.numeric(rownames(array.from.dt))),
+                   ymx = max(as.numeric(rownames(array.from.dt))), xmn = min(as.numeric(colnames(array.from.dt))),
+                   xmx = max(as.numeric(colnames(array.from.dt))))
+  my.brick = flip(my.brick, direction = "2")
+  return(my.brick)
 }
 
-test <- brick("merra_tp_-10-50E_30-70N.nc")
-test_x7 <- test$X7
-test_x7[,] <- scale(test_x7[,], center = T, scale = T)
-test_x10 <- test$X10
-test_x10[,] <- scale(test_x10[,], center = T, scale = T) #For monthly (mm) * 3600 * 24 * 30
-ncells <- length(test_x7)
-test_7_agg = list(test_x7)
-test_10_agg = list(test_x7)
 
-i <- 2
-while(ncells > 50){
-test_7_agg[[i]] <- aggregate(test_x7, fact = i)
-test_10_agg[[i]] <- aggregate(test_x10, fact = i)
-ncells <- length(test_7_agg[[i]])
-ncells <- length(test_10_agg[[i]])
-i <- i + 1
-print(i)
+
+thres <- 50
+x <- brick("merra_tp_-10-50E_30-70N.nc")
+no_layer <- nlayers(x)
+out <- list()
+for(j in 1:no_layer){
+  i <- 2
+  x_layer <- x[[j]]
+  x_layer[,] <- scale(x_layer[,], center = T, scale = T)
+  ncells <- length(x_layer)
+  x_agg <- list(x_layer)
+  while(ncells > thres){
+    x_agg[[i]] <- aggregate(x_layer, fact = i)
+    ncells <- length(x_agg[[i]])
+    i <- i + 1
+    print(paste0(i, ".", j))
+  }
+  out[[j]] <- sapply(sapply(x_agg, getValues), sd, na.rm = T)
 }
 
-aa <- sapply(sapply(test_7_agg, getValues), sd, na.rm = T)
-bb <- sapply(sapply(test_10_agg, getValues), sd, na.rm = T)
-aa_mat <- cbind(1:14, aa)
-bb_mat <- cbind(1:14, bb)
-scalegram_plot(aa_mat)
-aabb <- rbind(cbind(aa_mat, 7), cbind(bb_mat, 10))
-scalegram_plot(aabb)
+sc_test <- cbind(rep(1:length(out[[1]]), scale = length(out)), melt(out))
+colnames(sc_test)[3] <- "variable"
+scalegram_multiplot(sc_test)
 
 
 

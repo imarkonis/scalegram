@@ -35,12 +35,16 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
 scalegram_multiplot <- function(df, log_x = T, log_y = T){
   colnames(df) <- c("scale", "value", "variable")
   df <- as.data.frame(df)
-  cols <- colorRampPalette(c("#4575b4", "#abd9e9"), space = "rgb")(length(unique(df$variable)))
-  if(length(unique(df$variable)) == 2){
-    transp = 0.9
-  }else{
-    transp = 1 / log(length(unique(df$variable)))
+  no_var <- length(unique(df$variable))
+  cols <- colorRampPalette(c("#4575b4", "#abd9e9"), space = "rgb")(no_var)
+  transp = 1 / log(no_var)
+
+  if(no_var <= 10){
+    transp = 1
+    cols <- colorRampPalette(c("#4575b4", "#78c679", "#f46d43", "#74add1", "#807dba", "
+                               #fee090", "#d9f0a3", "#d73027", "#abd9e9", "#fdae61"), space = "rgb")
   }
+
   gp = ggplot(data = df, aes_string(x = df[ ,1], y = df[ ,2])) +
     geom_line(aes(group = interaction(variable),
                   colour = factor(variable)), size = 0.5, alpha = transp) +
