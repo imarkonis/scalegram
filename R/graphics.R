@@ -41,8 +41,8 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T){
 
   if(no_var <= 10){
     transp = 1
-    cols <- colorRampPalette(c("#4575b4", "#78c679", "#f46d43", "#74add1", "#807dba", "
-                               #fee090", "#d9f0a3", "#d73027", "#abd9e9", "#fdae61"), space = "rgb")
+    cols <- colorRampPalette(c("#4575b4", "#78c679", "#f46d43", "#74add1", "#807dba",
+                               "#fee090", "#d9f0a3", "#d73027", "#abd9e9", "#fdae61"), space = "rgb")
   }
 
   gp = ggplot(data = df, aes_string(x = df[ ,1], y = df[ ,2])) +
