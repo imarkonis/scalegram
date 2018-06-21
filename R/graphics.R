@@ -66,6 +66,7 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T, smooth = F){
       theme(panel.grid.minor.x = element_blank(),
             panel.grid.minor.y = element_blank())
   }
+  if(no_var > 10){gp <- gp + rremove("legend")}
   if(log_x == T){
     gpp <- gp + scale_x_log10("Aggregation scale [-]",
                               labels = trans_format("log10", math_format(10 ^ .x)),
