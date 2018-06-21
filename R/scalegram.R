@@ -78,3 +78,20 @@ scalegram_brick <- function(x, thres = 30){
   colnames(out)[2] = "variable"
   return(out[, c(3, 1, 2)])
 }
+
+dt_to_brick <- function(dt, var_name) {
+  arr_from_dt <- acast(dt, lat ~ lon ~ time, value.var = var_name, fun.aggregate = mean)
+  out <- brick(arr_from_dt, ymn = min(as.numeric(rownames(arr_from_dt))),
+               ymx = max(as.numeric(rownames(arr_from_dt))), xmn = min(as.numeric(colnames(arr_from_dt))),
+               xmx = max(as.numeric(colnames(arr_from_dt))))
+  out <- flip(out, direction = "2")
+  return(out)
+}
+
+scalegram_rescale <- function(scalegram_coarse, scalegram_fine, scale_ratio){
+  rescale_factor = scalegram_fine[scale == scale_ratio]$value
+  dummy = scalegram_coarse
+  dummy$scale = dummy$scale * scale_ratio
+  dummy$value = t(t(dummy$value) * rescale_factor)
+  return(dummy)
+}
