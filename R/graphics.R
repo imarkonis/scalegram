@@ -32,7 +32,7 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
   print(gppp)
 }
 
-scalegram_multiplot <- function(df, log_x = T, log_y = T){
+scalegram_multiplot <- function(df, log_x = T, log_y = T, smooth = F){
   colnames(df) <- c("scale", "value", "variable")
   df <- as.data.frame(df)
   no_var <- length(unique(df$variable))
@@ -44,16 +44,28 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T){
     cols <- c("#807dba", "#74add1", "#78c679", "#fdae61", "#f46d43",
               "#d73027", "#fee090", "#d9f0a3", "#abd9e9", "#4575b4")[1:no_var]
   }
-
-  gp = ggplot(data = df, aes_string(x = df[ ,1], y = df[ ,2])) +
-    geom_line(aes(group = interaction(variable),
-                  colour = factor(variable)), size = 0.5, alpha = transp) +
-    geom_point(aes(group = interaction(variable),
-                   colour = factor(variable)), alpha = transp) +
-    scale_colour_manual("", values = cols) +
-    theme_bw() +
-    theme(panel.grid.minor.x = element_blank(),
-          panel.grid.minor.y = element_blank())
+  if(smooth == F){
+    gp <- ggplot(data = df, aes_string(x = df[ ,1], y = df[ ,2])) +
+      geom_line(aes(group = interaction(variable),
+                    colour = factor(variable)), size = 0.5, alpha = transp) +
+      geom_point(aes(group = interaction(variable),
+                     colour = factor(variable)), alpha = transp) +
+      scale_colour_manual("", values = cols) +
+      theme_bw() +
+      theme(panel.grid.minor.x = element_blank(),
+            panel.grid.minor.y = element_blank())
+  }
+  else{
+    gp <- ggplot(data = df, aes_string(x = df[ ,1], y = df[ ,2])) +
+      geom_line(aes(group = interaction(variable),
+                    colour = factor(variable)),
+                stat='smooth', method = "loess", se = F, span = 1,
+                size = 1, alpha = transp) +
+      scale_colour_manual("", values = cols) +
+      theme_bw() +
+      theme(panel.grid.minor.x = element_blank(),
+            panel.grid.minor.y = element_blank())
+  }
   if(log_x == T){
     gpp <- gp + scale_x_log10("Aggregation scale [-]",
                               labels = trans_format("log10", math_format(10 ^ .x)),
