@@ -56,3 +56,25 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
     return(out)
   }
 }
+
+scalegram_brick <- function(x, thres = 30){
+  no_layer <- nlayers(x)
+  out <- list()
+  for(j in 1:no_layer){
+    i <- 2
+    x_layer <- x[[j]]
+    x_layer[,] <- scale(x_layer[,], center = T, scale = T)
+    ncells <- length(x_layer)
+    x_agg <- list(x_layer)
+    while(ncells > thres){
+      x_agg[[i]] <- aggregate(x_layer, fact = i)
+      ncells <- length(x_agg[[i]])
+      i <- i + 1
+    }
+    out[[j]] <- sapply(sapply(x_agg, getValues), sd, na.rm = T)
+  }
+  out <- data.table(melt(out))
+  out$scale <- rep(1:nrow(out[L1 == 1]), max(out$L1))
+  colnames(out)[2] = "variable"
+  return(out[, c(3, 1, 2)])
+}
