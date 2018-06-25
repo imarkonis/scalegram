@@ -32,7 +32,7 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
   print(gppp)
 }
 
-scalegram_multiplot <- function(df, log_x = T, log_y = T, smooth = F){
+scalegram_multiplot <- function(df, log_x = T, log_y = T, wn = F, smooth = F){
   colnames(df) <- c("scale", "value", "variable")
   df <- as.data.frame(df)
   no_var <- length(unique(df$variable))
@@ -85,6 +85,9 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T, smooth = F){
       annotation_logticks(sides = "b")
   } else {
     gppp <- gpp + scale_y_continuous("Value")
+  }
+  if(wn == T){
+    gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray")
   }
   print(gppp)
 }
