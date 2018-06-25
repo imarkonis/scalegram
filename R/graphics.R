@@ -27,7 +27,7 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
     gppp <- gpp + scale_y_continuous("Value")
   }
   if(wn == T){
-    gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark red")
+    gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray", linetype=3)
   }
   print(gppp)
 }
@@ -87,7 +87,7 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T, wn = F, smooth = F){
     gppp <- gpp + scale_y_continuous("Value")
   }
   if(wn == T){
-    gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray")
+    gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray", linetype = 3)
   }
   print(gppp)
 }
