@@ -57,7 +57,7 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
   }
 }
 
-scalegram_brick <- function(x, thres = 30){
+scalegram_space <- function(x, thres = 30){
   no_layer <- nlayers(x)
   out <- list()
   for(j in 1:no_layer){

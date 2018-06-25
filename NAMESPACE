@@ -1,5 +1,5 @@
 export(scalegram)
-export(scalegram_brick)
+export(scalegram_space)
 export(scalegram_multiplot)
 export(scalegram_plot)
 export(scalegram_rescale)
