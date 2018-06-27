@@ -1,12 +1,20 @@
-scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
+scalegram_plot <- function(x, log_x = T, log_y = T, smooth = F, wn = F){
   colnames(x) <- c("scale", "Value")
   df <- as.data.frame(x)
-  gp <- ggplot(data = df, aes_string(x = "scale", y = "Value")) +
-    geom_line(size = 0.5) +
-    geom_point() +
-    theme_bw() +
-    theme(panel.grid.minor.x = element_blank(),
-          panel.grid.minor.y = element_blank())
+  if(smooth == F){
+    gp <- ggplot(data = df, aes_string(x = "scale", y = "Value")) +
+      geom_line(size = 0.5) +
+      geom_point() +
+      theme_bw() +
+      theme(panel.grid.minor.x = element_blank(),
+            panel.grid.minor.y = element_blank())}
+  else{
+    gp <- ggplot(data = df, aes_string(x = "scale", y = "Value")) +
+      geom_line(size = 1,
+                stat = 'smooth', method = "loess", se = F, span = 1) +
+      theme_bw() +
+      theme(panel.grid.minor.x = element_blank(),
+            panel.grid.minor.y = element_blank())}
   if(log_x == T){
     gpp <- gp + scale_x_log10("Aggregation scale [-]",
                               labels = trans_format("log10", math_format(10 ^ .x)),
@@ -29,7 +37,7 @@ scalegram_plot <- function(x, log_x = T, log_y = T, wn = F){
   if(wn == T){
     gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray", linetype = "dashed")
   }
-  print(gppp)
+  gppp
 }
 
 scalegram_multiplot <- function(df, log_x = T, log_y = T, wn = F, smooth = F){
@@ -89,5 +97,5 @@ scalegram_multiplot <- function(df, log_x = T, log_y = T, wn = F, smooth = F){
   if(wn == T){
     gppp <- gppp + geom_abline(slope = -1, size = 1, col = "dark gray", linetype = "dashed")
   }
-  print(gppp)
+  gppp
 }

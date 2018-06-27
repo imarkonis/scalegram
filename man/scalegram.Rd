@@ -2,20 +2,20 @@
 \alias{scalegram}
 \title{Estimate and plot scalegram}
 \usage{
-scalegram(x, stat = "sd", std = TRUE, threshold = 30, plot = TRUE, fast = FALSE, ...)
+scalegram(x, stat = "var", std = TRUE, threshold = 30, plot = TRUE, fast = FALSE, ...)
 }
 
 \description{
-The function \code{scalegram} computes (and by default plots) estimates of the scaling behaviour of given statistics.
+The function \code{scalegram} computes (and by default plots) the aggregation curve of a given statistic in a single dimension.
 }
 
 \arguments{
-\item{x}{A numeric vector, time series or matrix.}
+\item{x}{A numeric vector.}
 
 \item{stat}{The statistic which will be estimated across the cross-scale continuum. Suitable options are:
 \itemize{
- \item{"sd" for standard deviation,}
  \item{"var" for variance,}
+ \item{"sd" for standard deviation,}
  \item{"skew" for skewness,}
  \item{"kurt" for kurtosis,}
  \item{"l2" for L-scale,}
@@ -32,7 +32,7 @@ The function \code{scalegram} computes (and by default plots) estimates of the s
 
 \item{fast}{logical. If TRUE the scalegram is estimated only in logarithmic scale; 1, 2, 3, ... , 10, 20, 30, ... , 100, 200, 300 etc.}
 
-\item{...}{log_x and log_y (default TRUE) for setting the axes of the scalegram plot to logarithmic scale.}
+\item{...}{log_x and log_y (default TRUE) for setting the axes of the scalegram plot to logarithmic scale. The argument wn (default FALSE) is used to plot a line presenting the standardized variance of the white noise process. Therefore, it should be used only with stat = "var" and std = T.}
 }
 
 \value{
@@ -45,28 +45,13 @@ If \code{plot = FALSE}, then it returns only the matrix of the timeseries values
 }
 
 \examples{
-scalegram(rnorm(1000))
+scalegram(rnorm(1000), wn = T)
 
-## Plot scalegram in logarithmic y axis
-data(owda)
-owda_site <- owda[owda$Lat == 50.25 & owda$Lon == 16.5, ]$scPDSI
-sgram_sd <- scalegram(owda_site, "l2")
-sgram_sd$sg_plot + scale_y_log10("L-scale")
+data(gpm_nl, knmi_nl, rdr_nl, ncep_nl, cnrm_nl, gpm_events)
+scalegram(knmi_nl$prcp, threshold = 10, fast = T)
 
-## Plot scalegram from tidy format
-owda_mat <- acast(owda, Time ~ Lon + Lat, value.var = "scPDSI") #transform them into matrix
-sgram_mat_sd = scalegram(owda_mat, std = F, threshold = 50)
+scalegram(cnrm_nl, )
 
-## Plot two scalegrams in a single plot
-site_a <- owda[owda$Lat == 50.25 & owda$Lon == 16.5, ]$scPDSI
-site_b <- owda[owda$Lat == 50.75 & owda$Lon == 16.5, ]$scPDSI
-aa <- scalegram(site_a)
-bb <- scalegram(site_b)
-aa$sg_plot +
-geom_line(data=bb$sg_df, col = "red") +
-geom_point(data=bb$sg_df, col = "red")
-
- plot_scalegram(scalegram(rnorm(100000), fast = T, plot = F), wn = T)
 }
 \references{
 Markonis, Y., & Koutsoyiannis, D. (2013). Climatic variability over time scales spanning nine orders of magnitude:
