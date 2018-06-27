@@ -4,4 +4,4 @@ export(scalegram_multiplot)
 export(scalegram_plot)
 export(scalegram_rescale)
 export(dt_to_brick)
-
+export(gpm_nl)
