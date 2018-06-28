@@ -50,7 +50,21 @@ scalegram(rnorm(1000), wn = T)
 data(gpm_nl, knmi_nl, rdr_nl, ncep_nl, cnrm_nl, gpm_events)
 scalegram(knmi_nl$prcp, threshold = 10, fast = T)
 
-scalegram(cnrm_nl, )
+scalegram(gpm_nl$prcp, stat = "skew", std = F, log_x = F, log_y = F, smooth = T)
+
+gpm_skew <- scalegram(gpm_nl$prcp, stat = "skew", std = F, log_x = F, log_y = F, smooth = T, plot = F)
+rdr_skew <- scalegram(rdr_nl$prcp, stat = "skew", std = F, log_x = F, log_y = F, smooth = T, plot = F)
+scalegram_multiplot(rbind(data.frame(gpm_skew, dataset = "gpm"), data.frame(rdr_skew, dataset = "rdr")), log_x = F, log_y = F, smooth = T)
+
+set_1 <- data.frame(scalegram(gpm_nl$prcp, plot = F, fast = T), dataset = "gpm")
+set_2 <- data.frame(scalegram(rdr_nl$prcp, plot = F, fast = T), dataset = "radar")
+set_3 <- data.frame(scalegram(knmi_nl$prcp, plot = F, fast = T), dataset = "station")
+set_4 <- data.frame(scalegram(ncep_nl$prcp, plot = F, fast = T), dataset = "ncep")
+set_5 <- data.frame(scalegram(cnrm_nl$prcp, plot = F, fast = T), dataset = "cnrm")
+scalegram_multiplot(rbind(set_1, set_2, set_3, set_4, set_5))
+
+
+
 
 }
 \references{
@@ -60,3 +74,7 @@ Connecting Milankovitch cycles with Hurst–Kolmogorov dynamics. Surveys in Geop
 Pappas, C., Mahecha, M. D., Frank, D. C., Babst, F., & Koutsoyiannis, D. (2017).
 Ecosystem functioning is enveloped by hydrometeorological variability. Nature Ecology & Evolution, 1(9), 1263.
 }
+
+
+
+

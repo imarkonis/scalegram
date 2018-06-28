@@ -13,7 +13,7 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
     timescales <- c(1:9 %o% 10^(0:30))
     timescales <- timescales[timescales <= max_agg_scale]
   }
-  # Parallel computing
+  # Parralel computing
   no_cores <- as.numeric(Sys.getenv('NUMBER_OF_PROCESSORS')) - 1
   if(no_cores < 1 | is.na(no_cores))(no_cores <- 1)
   cluster = makeCluster(no_cores, type = "SOCK")
@@ -38,7 +38,7 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
         else if (stat == "t3"){Lcoefs(x_agg,rmax = 4, na.rm = T)[, "tau3"]}   # stat: L-moment ratio L3/L2
         else if (stat == "t4"){Lcoefs(x_agg, rmax = 4, na.rm = T)[, "tau4"]}  # stat: L-moment ratio L4/L3
       }
-    } # parallel loop around aggregation scale
+    } # paralel loop around aggregation scale
   } else {
     return("Error: Time series length too short!")
   }
@@ -57,68 +57,27 @@ scalegram  <- function(x, stat = "var", std = T, threshold = 30, plot = T, fast 
   }
 }
 
-scalegram_space <- function(x, stat = "var", std = T, plot = T, threshold = 30, ...){
-  '%!in%' <- function(x, y)!('%in%'(x, y)) # keep function inside for the 'parallel' package
-  if (stat %!in% c("mean", "sd", "var", "skew", "kurt", "cv", "l2", "t2", "t3", "t4"))
-    stop("Error: Invalid stat. Select one of mean, sd, var, skew, kurt, cv, l2, t2, t3, t4.")
-
-  ncells <- x@ncols * x@nrows
-  max_agg_scale <- round(ncells / threshold, 0) # aggregation scale up to sample size of 30 values does not count NAs
-
-  # Parallel computing
-  no_cores <- as.numeric(Sys.getenv('NUMBER_OF_PROCESSORS')) - 1
-  if(no_cores < 1 | is.na(no_cores))(no_cores <- 1)
-  cluster = makeCluster(no_cores, type = "SOCK")
-  registerDoSNOW(cluster)
-
-  if (max_agg_scale != 0 & ncells > 2 * threshold){ # check for adequate time series length
-    no_layer <- nlayers(x)
-
-    out <- foreach (j = 1:no_layer, .packages = "raster") %dopar%  {# parallel loop around aggregation scale
-      i <- 2
-      x_layer <- raster(x, layer = j)
-      if (std == T){  # standardize
-        x_layer[,] <- scale(x_layer[,], center = T, scale = T)
-      }
-      x_agg <- list(x_layer)
-      while(ncells > threshold){
-        if (stat == "sd"){x_agg[[i]] <- aggregate(x_layer, fun = sd, na.rm = T, fact = i)}
-        else if (stat == "var"){x_agg[[i]] <- aggregate(x_layer, fun = var, na.rm = T, fact = i)}
-        else if (stat == "skew"){x_agg[[i]] <- aggregate(x_layer, fun = skewness, na.rm = T, fact = i)}
-        else if (stat == "kurt"){x_agg[[i]] <- aggregate(x_layer, fun = kurtosis, na.rm = T, fact = i)}
-        ncells <- length(x_agg[[i]])
-        i <- i + 1
-      }
-      sapply(sapply(x_agg, getValues), sd, na.rm = T)
-    } # parallel loop around aggregation scale
-
-    out <- data.table(melt(out))
-    out$scale <- rep(1:nrow(out[L1 == 1]), max(out$L1))
-    colnames(out)[2] = "variable"
-    out <- out[, c(3, 1, 2)]
-  } else {
-    return("Error: Time series length too short!")
+scalegram_space <- function(x, thres = 30){
+  no_layer <- nlayers(x)
+  out <- list()
+  for(j in 1:no_layer){
+    i <- 2
+    x_layer <- x[[j]]
+    x_layer[,] <- scale(x_layer[,], center = T, scale = T)
+    ncells <- length(x_layer)
+    x_agg <- list(x_layer)
+    while(ncells > thres){
+      x_agg[[i]] <- aggregate(x_layer, fact = i)
+      ncells <- length(x_agg[[i]])
+      i <- i + 1
+    }
+    out[[j]] <- sapply(sapply(x_agg, getValues), sd, na.rm = T)
   }
-  stopCluster(cluster)
-  #out <- out[-length(out)]
-  #out <- matrix(c(timescales[1:length(out)], out), ncol = 2)
-  #colnames(out) = c("scale", stat)
-
-  if (plot == T){
-    if(ncol(out) == 2){
-      plot_sc <- scalegram_plot(out, ...)
-      }
-    else{
-      plot_sc <- scalegram_multiplot(out, ...)
-      }
-  return(list(sg_df   = out,
-              sg_plot = plot_sc))
-  }
-else {
-  return(out)
+  out <- data.table(melt(out))
+  out$scale <- rep(1:nrow(out[L1 == 1]), max(out$L1))
+  colnames(out)[2] = "variable"
+  return(out[, c(3, 1, 2)])
 }
-}
-
 
 dt_to_brick <- function(dt, var_name) {
   arr_from_dt <- acast(dt, lat ~ lon ~ time, value.var = var_name, fun.aggregate = mean)
