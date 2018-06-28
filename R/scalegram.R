@@ -63,7 +63,8 @@ scalegram_space <- function(x, stat = "var", std = T, plot = T, threshold = 30, 
     stop("Error: Invalid stat. Select one of mean, sd, var, skew, kurt, cv, l2, t2, t3, t4.")
 
   ncells <- x@ncols * x@nrows
-  max_agg_scale <- round(ncells / threshold, 0) # aggregation scale up to sample size of 30 values does not count NAs
+  max_agg_scale <- round(sqrt(ncells / threshold), 0) # aggregation scale up to sample size of 30 values does not count NAs
+  x_agg <- list()
 
   # Parallel computing
   no_cores <- as.numeric(Sys.getenv('NUMBER_OF_PROCESSORS')) - 1
@@ -75,21 +76,22 @@ scalegram_space <- function(x, stat = "var", std = T, plot = T, threshold = 30, 
     no_layer <- nlayers(x)
 
     out <- foreach (j = 1:no_layer, .packages = "raster") %dopar%  {# parallel loop around aggregation scale
-      i <- 2
-      x_layer <- raster(x, layer = j)
+      if(no_layer > 1){
+        x_layer <- raster(x, layer = j)
+      }
+      else{
+        x_layer <- x
+      }
       if (std == T){  # standardize
         x_layer[,] <- scale(x_layer[,], center = T, scale = T)
       }
-      x_agg <- list(x_layer)
-      while(ncells > threshold){
-        if (stat == "sd"){x_agg[[i]] <- aggregate(x_layer, fun = sd, na.rm = T, fact = i)}
-        else if (stat == "var"){x_agg[[i]] <- aggregate(x_layer, fun = var, na.rm = T, fact = i)}
-        else if (stat == "skew"){x_agg[[i]] <- aggregate(x_layer, fun = skewness, na.rm = T, fact = i)}
-        else if (stat == "kurt"){x_agg[[i]] <- aggregate(x_layer, fun = kurtosis, na.rm = T, fact = i)}
-        ncells <- length(x_agg[[i]])
-        i <- i + 1
+      for (i in 1:max_agg_scale){
+        x_agg[[i]] <- aggregate(x_layer, na.rm = T, fact = i)
       }
-      sapply(sapply(x_agg, getValues), sd, na.rm = T)
+      if (stat == "sd"){sapply(sapply(x_agg, getValues), sd, na.rm = T)}
+      else if (stat == "var"){sapply(sapply(x_agg, getValues), var, na.rm = T)}
+      else if (stat == "skew"){sapply(sapply(x_agg, getValues), skewness, na.rm = T)}
+      else if (stat == "kurt"){sapply(sapply(x_agg, getValues), mean, na.rm = T)}
     } # parallel loop around aggregation scale
 
     out <- data.table(melt(out))
@@ -100,25 +102,21 @@ scalegram_space <- function(x, stat = "var", std = T, plot = T, threshold = 30, 
     return("Error: Time series length too short!")
   }
   stopCluster(cluster)
-  #out <- out[-length(out)]
-  #out <- matrix(c(timescales[1:length(out)], out), ncol = 2)
-  #colnames(out) = c("scale", stat)
 
   if (plot == T){
     if(ncol(out) == 2){
       plot_sc <- scalegram_plot(out, ...)
-      }
+    }
     else{
       plot_sc <- scalegram_multiplot(out, ...)
-      }
-  return(list(sg_df   = out,
-              sg_plot = plot_sc))
+    }
+    return(list(sg_df   = out,
+                sg_plot = plot_sc))
   }
-else {
-  return(out)
+  else {
+    return(out)
+  }
 }
-}
-
 
 dt_to_brick <- function(dt, var_name) {
   arr_from_dt <- acast(dt, lat ~ lon ~ time, value.var = var_name, fun.aggregate = mean)
